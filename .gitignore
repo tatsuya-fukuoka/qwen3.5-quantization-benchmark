@@ -1,0 +1,17 @@
+# models / weights
+*.gguf
+*.safetensors
+*.bin
+*.imatrix
+models/
+data/
+llama.cpp/
+
+# secrets / env
+.env
+.env.*
+
+# python / notebooks
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
