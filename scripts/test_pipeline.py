@@ -114,6 +114,21 @@ class TestPipeline(unittest.TestCase):
             self.assertIn('"--n", type=int, default=100', src)  # 既定は Phase 0 のまま
             self.assertIn('"n_per_task": args.n if args.n > 0 else "all"', src)
 
+    def test_eval_vllm_max_num_seqs(self):
+        import eval_vllm  # vllm は main() 内で import されるのでここでは不要
+        base = ["--condition", "B0", "--model", "m"]
+        a = eval_vllm.build_parser().parse_args(base)
+        self.assertIsNone(a.max_num_seqs)
+        self.assertNotIn("max_num_seqs", eval_vllm.build_llm_kwargs(a))  # 未指定は vLLM 既定のまま
+        b = eval_vllm.build_parser().parse_args(base + ["--max-num-seqs", "128"])
+        self.assertEqual(b.max_num_seqs, 128)
+        kw = eval_vllm.build_llm_kwargs(b)
+        self.assertEqual(kw["max_num_seqs"], 128)
+        self.assertEqual((kw["max_model_len"], kw["seed"], kw["language_model_only"]),
+                         (common.CTX, common.SEED, True))
+        with open(os.path.join(HERE, "eval_vllm.py"), encoding="utf-8") as f:
+            self.assertIn('"max_num_seqs": args.max_num_seqs', f.read())  # 結果 JSON の settings に記録
+
     def test_messages_are_shared_format(self):
         m = common.build_messages("jcommonsenseqa", {"question": "Q", "choices": list("abcde")})
         self.assertEqual(m[0]["role"], "user")

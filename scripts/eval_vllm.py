@@ -38,7 +38,7 @@ def compute_ppl(llm, text: str) -> float:
     return math.exp(nll / cnt) if cnt else float("nan")
 
 
-def main() -> None:
+def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--condition", required=True, help="B1 など")
     ap.add_argument("--model", required=True, help="量子化済みモデルのディレクトリ")
@@ -47,10 +47,26 @@ def main() -> None:
     ap.add_argument("--n", type=int, default=100,
                     help="各タスクの先頭件数（既定 100 = Phase 0）。0 以下ならデータファイルの全行を評価")
     ap.add_argument("--gpu-mem-util", type=float, default=0.85)
+    ap.add_argument("--max-num-seqs", type=int, default=None,
+                    help="vLLM の max_num_seqs。未指定なら LLM() に渡さず vLLM 既定値のまま"
+                         "（Mamba 層を含むモデルで既定 256 がキャッシュブロック数を超える場合に指定する）")
     ap.add_argument("--model-id", default="Qwen/Qwen3.5-9B")
     ap.add_argument("--qualitative", default=os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                                          "prompts_qualitative.txt"))
-    args = ap.parse_args()
+    return ap
+
+
+def build_llm_kwargs(args) -> dict:
+    """LLM() に渡す引数。max_num_seqs は指定時のみ含める（未指定は vLLM 既定値）。"""
+    kw = {"model": args.model, "max_model_len": common.CTX, "seed": common.SEED,
+          "gpu_memory_utilization": args.gpu_mem_util, "language_model_only": True}
+    if args.max_num_seqs is not None:
+        kw["max_num_seqs"] = args.max_num_seqs
+    return kw
+
+
+def main() -> None:
+    args = build_parser().parse_args()
 
     import vllm
     from vllm import LLM, SamplingParams
@@ -60,8 +76,7 @@ def main() -> None:
     started = time.strftime("%Y-%m-%dT%H:%M:%S")
 
     with common.GpuMonitor() as mon:
-        llm = LLM(model=args.model, max_model_len=common.CTX, seed=common.SEED,
-                  gpu_memory_utilization=args.gpu_mem_util, language_model_only=True)
+        llm = LLM(**build_llm_kwargs(args))
         sp_cache: dict[int, SamplingParams] = {}
 
         def sp(mt: int) -> SamplingParams:
@@ -97,6 +112,7 @@ def main() -> None:
                      "thinking": "off (chat_template_kwargs enable_thinking=false)",
                      "max_tokens": common.MAX_TOKENS, "ppl_ctx": common.PPL_CTX,
                      "gpu_memory_utilization": args.gpu_mem_util,
+                     "max_num_seqs": args.max_num_seqs,  # 未指定は null（vLLM 既定値）
                      "vram_note": "vLLM は gpu_memory_utilization 分を先取りするため、VRAM は GGUF と直接比較しない",
                      "file_size_note": "*.safetensors 合計（Vision Encoder の BF16 重みを含む）"},
         "gpu": common.gpu_name(),
