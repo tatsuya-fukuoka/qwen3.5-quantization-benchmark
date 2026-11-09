@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
-"""results/<condition>.json を集めて results/summary.tsv を作り、表示する。"""
+"""results/<condition>.json を集めて results/summary.tsv を作り、表示する。
+使い方: make_summary.py [結果ディレクトリ] [出力ファイル名] [条件の接頭辞]
+例: make_summary.py results_main summary_b.tsv B   （Track B のみを summary_b.tsv へ。summary.tsv は触らない）
+"""
 import glob
 import json
 import os
 import sys
 
 RESULTS = sys.argv[1] if len(sys.argv) > 1 else "results"
+OUT_NAME = sys.argv[2] if len(sys.argv) > 2 else "summary.tsv"
+PREFIX = sys.argv[3] if len(sys.argv) > 3 else ""
 ORDER = ["A0", "A1", "A2", "A3", "A3i", "A4", "A4i", "A5", "A5i", "B0", "B1", "B2", "B3"]
 COLS = ["条件", "種別", "ファイルサイズGB", "JCSQA acc", "JSQuAD F1", "MGSM acc", "PPL", "tok/s", "VRAM GB"]
 
@@ -20,7 +25,7 @@ recs = []
 for p in glob.glob(os.path.join(RESULTS, "*.json")):
     with open(p, encoding="utf-8") as f:
         r = json.load(f)
-    if "condition" in r and "metrics" in r:
+    if "condition" in r and "metrics" in r and r["condition"].startswith(PREFIX):
         recs.append(r)
 recs.sort(key=lambda r: ORDER.index(r["condition"]) if r["condition"] in ORDER else 99)
 
@@ -31,7 +36,7 @@ for r in recs:
                  fmt(m.get("jsquad_f1")), fmt(m.get("mgsm_acc")), fmt(m.get("ppl"), 3),
                  fmt(m.get("tok_s"), 1), fmt(m.get("vram_gb"), 1)])
 
-out = os.path.join(RESULTS, "summary.tsv")
+out = os.path.join(RESULTS, OUT_NAME)
 with open(out, "w", encoding="utf-8") as f:
     f.write("\t".join(COLS) + "\n")
     for row in rows:

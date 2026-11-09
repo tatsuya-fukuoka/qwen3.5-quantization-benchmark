@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """コマンドを実行して所要時間を results/timings.tsv に追記する。
 使い方: python scripts/run_timed.py <label> -- <command...>
+環境変数 RESULTS_DIR（既定 results）と TIMINGS_FILE（既定 timings.tsv。Track B は timings_b.tsv）で出力先を変える。
 """
 import os
 import subprocess
@@ -11,7 +12,8 @@ if "--" not in sys.argv or len(sys.argv) < 4:
     sys.exit(__doc__)
 i = sys.argv.index("--")
 label, cmd = " ".join(sys.argv[1:i]), sys.argv[i + 1:]
-path = os.path.join(os.environ.get("RESULTS_DIR", "results"), "timings.tsv")
+path = os.path.join(os.environ.get("RESULTS_DIR", "results"),
+                    os.environ.get("TIMINGS_FILE", "timings.tsv"))
 os.makedirs(os.path.dirname(path), exist_ok=True)
 t0 = time.time()
 rc = subprocess.call(cmd)
