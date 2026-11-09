@@ -1,0 +1,117 @@
+{
+  "condition": "B2",
+  "kind": "vLLM",
+  "started": "2026-11-09T14:20:57",
+  "model": {
+    "id": "Qwen/Qwen3.5-9B",
+    "path": "models/Qwen3.5-9B-GPTQ-W4A16",
+    "text_only": true,
+    "quantization": {
+      "condition": "B2",
+      "method": "llm-compressor oneshot (GPTQ)",
+      "scheme": "W4A16",
+      "targets": "Linear",
+      "ignore": [
+        "lm_head",
+        "re:.*visual.*",
+        "re:.*vision.*"
+      ],
+      "recipe": {
+        "modifier": "GPTQModifier",
+        "targets": "Linear",
+        "scheme": "W4A16",
+        "ignore": [
+          "lm_head",
+          "re:.*visual.*",
+          "re:.*vision.*"
+        ],
+        "dampening_frac": 0.01,
+        "block_size": 128
+      },
+      "calibration": {
+        "method": "hybrid-pack",
+        "source_file": "hybrid_256x1024.json",
+        "num_samples": 256,
+        "seq_len": 1024,
+        "max_seq_len": 1024,
+        "total_tokens": 262144,
+        "packed_sha256": "6f5ba7a9671563c07d01f1c93fa806baf32a767476f2d85071ed7451b11d0c2a",
+        "samples_sha256": "cc3f70501724a25ae095830a8c3d8210d9c516ead01537540d012b38c76e5106",
+        "seed": 0,
+        "existing_tokens": 93306,
+        "supplement_tokens": 168838,
+        "existing_source": "imatrix_calib.txt",
+        "existing_sha256": "2a3fbc1939e55b4c28e00abc6d3dc1483e9b86718e856ea4cb66eb0edcb9cc76",
+        "supplement_source": {
+          "dataset": "HuggingFaceFW/fineweb-2",
+          "config": "jpn_Jpan",
+          "revision": "af9c13333eb981300149d5ca60a8e9d659b276b9",
+          "data_file": "data/jpn_Jpan/train/000_00000.parquet"
+        },
+        "supplement_docs": 413,
+        "tokenizer": {
+          "name": "Qwen3_5Tokenizer",
+          "dir": "Qwen3.5-9B",
+          "vocab_size": 248077,
+          "fingerprint": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+          "transformers": "5.21.0"
+        }
+      },
+      "source_model": "Qwen/Qwen3.5-9B",
+      "quantized_linear_layers": 248,
+      "seconds": 803.8,
+      "versions": {
+        "llmcompressor": "0.15.0",
+        "compressed-tensors": "0.20.1",
+        "transformers": "5.21.0",
+        "torch": "2.14.1"
+      }
+    }
+  },
+  "versions": {
+    "vllm": "0.33.0rc1.dev1093+gb389f03ff",
+    "python": "3.12.3",
+    "llmcompressor": "0.15.0"
+  },
+  "settings": {
+    "n_per_task": "all",
+    "ctx": 8192,
+    "temperature": 0,
+    "seed": 0,
+    "thinking": "off (chat_template_kwargs enable_thinking=false)",
+    "max_tokens": {
+      "jcommonsenseqa": 16,
+      "jsquad": 64,
+      "mgsm": 768,
+      "qualitative": 512
+    },
+    "ppl_ctx": 2048,
+    "gpu_memory_utilization": 0.85,
+    "max_num_seqs": 128,
+    "vram_note": "vLLM は gpu_memory_utilization 分を先取りするため、VRAM は GGUF と直接比較しない",
+    "file_size_note": "*.safetensors 合計（Vision Encoder の BF16 重みを含む）"
+  },
+  "gpu": "NVIDIA L4, 23034 MiB",
+  "n": {
+    "jcommonsenseqa": 200,
+    "jsquad": 200,
+    "mgsm": 250,
+    "qualitative": 10
+  },
+  "metrics": {
+    "jcsqa_acc": 0.91,
+    "jsquad_f1": 0.9252,
+    "jsquad_em": 0.83,
+    "mgsm_acc": 0.772,
+    "tok_s": 40.11,
+    "ppl": 8.7869,
+    "vram_gb": 20.68,
+    "file_size_gb": 9.037
+  },
+  "generations": {
+    "jcommonsenseqa": "results_main/B2/gen_jcommonsenseqa.jsonl",
+    "jsquad": "results_main/B2/gen_jsquad.jsonl",
+    "mgsm": "results_main/B2/gen_mgsm.jsonl",
+    "qualitative": "results_main/B2/qualitative.jsonl"
+  }
+}
