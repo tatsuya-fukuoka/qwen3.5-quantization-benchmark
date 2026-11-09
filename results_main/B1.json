@@ -1,0 +1,77 @@
+{
+  "condition": "B1",
+  "kind": "vLLM",
+  "started": "2026-11-09T12:03:45",
+  "model": {
+    "id": "Qwen/Qwen3.5-9B",
+    "path": "models/Qwen3.5-9B-FP8-dynamic",
+    "text_only": true,
+    "quantization": {
+      "condition": "B1",
+      "method": "llm-compressor oneshot",
+      "scheme": "FP8_DYNAMIC",
+      "targets": "Linear",
+      "ignore": [
+        "lm_head",
+        "re:.*visual.*",
+        "re:.*vision.*"
+      ],
+      "calibration": null,
+      "source_model": "Qwen/Qwen3.5-9B",
+      "quantized_linear_layers": 248,
+      "seconds": 1.6,
+      "versions": {
+        "llmcompressor": "0.15.0",
+        "compressed-tensors": "0.20.1",
+        "transformers": "5.21.0",
+        "torch": "2.14.1"
+      }
+    }
+  },
+  "versions": {
+    "vllm": "0.33.0rc1.dev1093+gb389f03ff",
+    "python": "3.12.3",
+    "llmcompressor": "0.15.0"
+  },
+  "settings": {
+    "n_per_task": "all",
+    "ctx": 8192,
+    "temperature": 0,
+    "seed": 0,
+    "thinking": "off (chat_template_kwargs enable_thinking=false)",
+    "max_tokens": {
+      "jcommonsenseqa": 16,
+      "jsquad": 64,
+      "mgsm": 768,
+      "qualitative": 512
+    },
+    "ppl_ctx": 2048,
+    "gpu_memory_utilization": 0.85,
+    "max_num_seqs": 128,
+    "vram_note": "vLLM は gpu_memory_utilization 分を先取りするため、VRAM は GGUF と直接比較しない",
+    "file_size_note": "*.safetensors 合計（Vision Encoder の BF16 重みを含む）"
+  },
+  "gpu": "NVIDIA L4, 23034 MiB",
+  "n": {
+    "jcommonsenseqa": 200,
+    "jsquad": 200,
+    "mgsm": 250,
+    "qualitative": 10
+  },
+  "metrics": {
+    "jcsqa_acc": 0.94,
+    "jsquad_f1": 0.9326,
+    "jsquad_em": 0.855,
+    "mgsm_acc": 0.788,
+    "tok_s": 24.09,
+    "ppl": 8.5815,
+    "vram_gb": 21.01,
+    "file_size_gb": 12.391
+  },
+  "generations": {
+    "jcommonsenseqa": "results_main/B1/gen_jcommonsenseqa.jsonl",
+    "jsquad": "results_main/B1/gen_jsquad.jsonl",
+    "mgsm": "results_main/B1/gen_mgsm.jsonl",
+    "qualitative": "results_main/B1/qualitative.jsonl"
+  }
+}

@@ -5,3 +5,5 @@ label	seconds	minutes	exit_code	started
 5_download_model	52	0.9	0	2026-11-09T11:33:57
 B0_eval	195	3.2	1	2026-11-09T11:34:49
 B0_eval	450	7.5	0	2026-11-09T11:55:01
+B1_quantize	59	1.0	0	2026-11-09T12:02:33
+B1_eval	299	5.0	0	2026-11-09T12:03:32
