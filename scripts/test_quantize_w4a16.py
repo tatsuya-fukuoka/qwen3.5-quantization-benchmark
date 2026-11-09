@@ -126,6 +126,67 @@ class TestOneshotProcessor(unittest.TestCase):
         self.assertIs(calls["processor"], tok)
 
 
+class TestAwqOomMitigation(unittest.TestCase):
+    """B3（AWQ）CUDA OOM の回帰: キャッシュ/モデルを GPU に常駐させない。キャリブレーションとレシピ実質は B2 と同一。"""
+
+    def test_awq_spec_offloads_cache_but_keeps_recipe(self):
+        s = q.recipe_spec("awq")
+        self.assertEqual(s["offload_device"], "cpu")
+        self.assertEqual((s["scheme"], s["targets"], s["ignore"]), ("W4A16", "Linear", q.IGNORE))
+        self.assertNotIn("mappings", s)  # mappings は既定（auto 推定）のまま
+        self.assertNotIn("offload_device", q.recipe_spec("gptq"))
+
+    def test_device_map_only_changes_for_awq(self):
+        self.assertEqual(q.model_device_map("awq"), "cpu")
+        self.assertEqual(q.model_device_map("gptq"), "auto")
+
+    def test_oneshot_kwargs_awq_adds_only_offload_device(self):
+        base = q.oneshot_kwargs("m", "d", "r", "t", 1024, 256)
+        awq = q.oneshot_kwargs("m", "d", "r", "t", 1024, 256, "awq")
+        self.assertEqual(q.oneshot_kwargs("m", "d", "r", "t", 1024, 256, "gptq"), base)
+        self.assertEqual({k: v for k, v in awq.items() if k not in base}, {"sequential_offload_device": "cpu"})
+        self.assertEqual({k: awq[k] for k in base}, base)  # 件数・系列長・データ・レシピは不変
+
+    def test_main_awq_wiring(self):
+        import types
+        from unittest import mock
+        tok, model = mock.MagicMock(), mock.MagicMock()
+        model.named_modules.return_value = [("model.layers.0.mlp", types.SimpleNamespace(quantization_scheme=1))]
+        calls = {}
+        torch_m = mock.MagicMock(bfloat16="bf16")
+        torch_m.device.side_effect = lambda d: f"dev:{d}"
+        awq_mod = mock.MagicMock()
+        mods = {
+            "torch": torch_m, "datasets": mock.MagicMock(),
+            "llmcompressor": types.SimpleNamespace(oneshot=lambda **kw: calls.update(kw)),
+            "llmcompressor.modifiers": mock.MagicMock(), "llmcompressor.modifiers.awq": awq_mod,
+            "transformers": mock.MagicMock(),
+        }
+        mods["transformers"].AutoTokenizer.from_pretrained.return_value = tok
+        mods["transformers"].AutoModelForImageTextToText.from_pretrained.return_value = model
+        with tempfile.TemporaryDirectory() as d:
+            packed = os.path.join(ROOT, "calib", "hybrid_256x1024.json")
+            argv = ["quantize_w4a16.py", "--method", "awq", "--model", d, "--out", os.path.join(d, "o"),
+                    "--calib-packed", packed]
+            env = {k: v for k, v in os.environ.items() if k != "PYTORCH_CUDA_ALLOC_CONF"}
+            with mock.patch.dict(sys.modules, mods), mock.patch.object(sys, "argv", argv), \
+                    mock.patch.dict(os.environ, env, clear=True):
+                q.main()
+                self.assertEqual(os.environ["PYTORCH_CUDA_ALLOC_CONF"], "expandable_segments:True")
+        self.assertEqual(mods["transformers"].AutoModelForImageTextToText.from_pretrained.call_args.kwargs["device_map"], "cpu")
+        kw = awq_mod.AWQModifier.call_args.kwargs
+        self.assertEqual(kw["offload_device"], "dev:cpu")
+        self.assertEqual((kw["targets"], kw["scheme"], kw["ignore"]), (["Linear"], "W4A16", q.IGNORE))
+        self.assertNotIn("mappings", kw)
+        self.assertEqual((calls["max_seq_length"], calls["num_calibration_samples"]), (1024, 256))
+        self.assertEqual(calls["sequential_offload_device"], "cpu")
+        self.assertIs(calls["processor"], tok)
+
+    def test_main_gptq_unchanged(self):
+        src = open(os.path.join(HERE, "quantize_w4a16.py"), encoding="utf-8").read()
+        self.assertIn('if args.method == "awq":', src)  # env 設定は AWQ のみ（B2 の条件を変えない）
+
+
 class TestTrackBOutputs(unittest.TestCase):
     def test_summary_b_does_not_touch_summary(self):
         with tempfile.TemporaryDirectory() as d:

@@ -33,6 +33,12 @@ MAX_SEQ_LEN = 512      # トークン数の上限（oneshot の max_seq_length /
 MIN_CHARS = 64         # これより短い行はキャリブレーションに使わない
 MAX_CHARS = 4000       # 極端に長い行は先頭だけ使う（トークナイズ前の安全弁。実際の上限は MAX_SEQ_LEN）
 GPTQ_PARAMS = {"dampening_frac": 0.01, "block_size": 128}  # GPTQModifier の既定値を明示して記録
+# B3（AWQ）の OOM 対策（docs/b3-awq-oom-investigation.md）。数値結果は変えない（置き場所だけの変更）。
+#  - AWQModifier(offload_device=cpu): 親モジュールの forward 引数キャッシュ（256 件分）を GPU ではなく CPU に置く（0.15.0 既定は GPU）
+#  - model を CPU にロード: oneshot の sequential pipeline が subgraph（デコーダ 1 層）単位で GPU に載せる（常駐させない）
+#  - expandable_segments: 断片化による reserved の肥大を抑える
+AWQ_OFFLOAD_DEVICE = "cpu"
+AWQ_ALLOC_CONF = "expandable_segments:True"
 
 
 def build_calibration_samples(text: str, n: int = NUM_SAMPLES, seed: int = SEED,
@@ -104,12 +110,19 @@ def recipe_spec(method: str, mappings: list | None = None) -> dict:
             "targets": TARGETS, "scheme": SCHEME, "ignore": list(IGNORE)}
     if method == "gptq":
         spec.update(GPTQ_PARAMS)
-    elif mappings is not None:
-        spec["mappings"] = mappings
+    else:
+        spec["offload_device"] = AWQ_OFFLOAD_DEVICE
+        if mappings is not None:
+            spec["mappings"] = mappings
     return spec
 
 
-def oneshot_kwargs(model, ds, recipe, tok, max_seq_len: int, n_samples: int) -> dict:
+def model_device_map(method: str) -> str:
+    """モデルのロード先。GPTQ（B2、完走済み）は従来どおり "auto"。AWQ は "cpu"（層ごとのオンロードは oneshot 任せ）。"""
+    return "cpu" if method == "awq" else "auto"
+
+
+def oneshot_kwargs(model, ds, recipe, tok, max_seq_len: int, n_samples: int, method: str = "gptq") -> dict:
     """oneshot に渡す引数。processor に読み込み済みの tokenizer を明示的に渡す。
 
     llm-compressor 0.15.0 の pre_process は processor が str/None のときだけ AutoProcessor.from_pretrained を呼び、
@@ -117,8 +130,13 @@ def oneshot_kwargs(model, ds, recipe, tok, max_seq_len: int, n_samples: int) -> 
     インスタンスを渡せばこの自動初期化は走らない。テキストのみ・トークナイズ済みの dataset では collator も
     getattr(processor, "tokenizer", processor) としか使わないので tokenizer で足りる。レシピ・データは変えない。
     """
-    return {"model": model, "dataset": ds, "recipe": recipe, "processor": tok,
-            "max_seq_length": max_seq_len, "num_calibration_samples": n_samples}
+    kw = {"model": model, "dataset": ds, "recipe": recipe, "processor": tok,
+          "max_seq_length": max_seq_len, "num_calibration_samples": n_samples}
+    if method == "awq":
+        # sequential pipeline の層間活性化の退避先。0.15.0 の既定値（cpu）と同じだが、明示して固定する。
+        # pipeline / sequential_targets / sequential_targets_per_subgraph は既定のまま（デコーダ 1 層 = 1 subgraph）
+        kw["sequential_offload_device"] = AWQ_OFFLOAD_DEVICE
+    return kw
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -169,18 +187,22 @@ def main() -> None:
         with open(args.awq_mappings_json, encoding="utf-8") as f:
             mappings = json.load(f)
 
+    if args.method == "awq":  # CUDA 初期化（torch の import 後の最初の確保）より前に設定する
+        os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", AWQ_ALLOC_CONF)
+
     import torch
     from datasets import Dataset
     from llmcompressor import oneshot
     from transformers import AutoProcessor, AutoTokenizer
 
+    device_map = model_device_map(args.method)
     try:  # マルチモーダル構成のまま読む（quantize_fp8.py と同じ）
         from transformers import AutoModelForImageTextToText as Auto
-        model = Auto.from_pretrained(args.model, torch_dtype=torch.bfloat16, device_map="auto")
+        model = Auto.from_pretrained(args.model, torch_dtype=torch.bfloat16, device_map=device_map)
     except Exception as e:  # noqa: BLE001
         print(f"AutoModelForImageTextToText で読めなかったので CausalLM にフォールバック: {e}")
         from transformers import AutoModelForCausalLM as Auto
-        model = Auto.from_pretrained(args.model, torch_dtype=torch.bfloat16, device_map="auto")
+        model = Auto.from_pretrained(args.model, torch_dtype=torch.bfloat16, device_map=device_map)
 
     tok = AutoTokenizer.from_pretrained(args.model)
     if packed is not None:  # トークナイズ済み。0.15.0 は input_ids 列があれば再処理せずそのまま使う
@@ -198,10 +220,11 @@ def main() -> None:
     else:
         from llmcompressor.modifiers.awq import AWQModifier
         kw = {"mappings": mappings} if mappings is not None else {}
-        recipe = AWQModifier(targets=[spec["targets"]], scheme=spec["scheme"], ignore=spec["ignore"], **kw)
+        recipe = AWQModifier(targets=[spec["targets"]], scheme=spec["scheme"], ignore=spec["ignore"],
+                             offload_device=torch.device(spec["offload_device"]), **kw)
 
     t0 = time.time()
-    oneshot(**oneshot_kwargs(model, ds, recipe, tok, max_seq_len, n_samples))
+    oneshot(**oneshot_kwargs(model, ds, recipe, tok, max_seq_len, n_samples, args.method))
     elapsed = time.time() - t0
 
     quantized = [n for n, m in model.named_modules() if getattr(m, "quantization_scheme", None) is not None]
