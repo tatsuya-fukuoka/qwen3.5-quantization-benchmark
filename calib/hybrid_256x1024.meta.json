@@ -1,0 +1,1971 @@
+{
+  "method": "hybrid-pack",
+  "format": "packed-token-ids-v1",
+  "num_samples": 256,
+  "seq_len": 1024,
+  "total_tokens": 262144,
+  "seed": 0,
+  "pool_margin": 64,
+  "pool_chunks": 320,
+  "dropped_tail_tokens": 119,
+  "chunk_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    94,
+    95,
+    96,
+    97,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    119,
+    120,
+    122,
+    123,
+    125,
+    126,
+    127,
+    128,
+    129,
+    133,
+    134,
+    137,
+    139,
+    140,
+    142,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    153,
+    154,
+    155,
+    156,
+    158,
+    159,
+    160,
+    161,
+    163,
+    164,
+    165,
+    166,
+    167,
+    169,
+    170,
+    171,
+    172,
+    173,
+    174,
+    175,
+    176,
+    177,
+    178,
+    179,
+    181,
+    182,
+    183,
+    190,
+    194,
+    195,
+    196,
+    197,
+    198,
+    199,
+    202,
+    203,
+    204,
+    205,
+    206,
+    207,
+    210,
+    211,
+    212,
+    213,
+    214,
+    216,
+    217,
+    218,
+    221,
+    222,
+    223,
+    225,
+    227,
+    228,
+    230,
+    231,
+    232,
+    233,
+    235,
+    237,
+    239,
+    240,
+    241,
+    244,
+    246,
+    247,
+    248,
+    249,
+    250,
+    252,
+    253,
+    255,
+    256,
+    259,
+    260,
+    263,
+    267,
+    268,
+    269,
+    270,
+    271,
+    272,
+    273,
+    274,
+    275,
+    276,
+    277,
+    278,
+    279,
+    281,
+    284,
+    285,
+    286,
+    287,
+    288,
+    289,
+    292,
+    293,
+    294,
+    296,
+    297,
+    298,
+    299,
+    300,
+    302,
+    304,
+    305,
+    306,
+    307,
+    308,
+    310,
+    311,
+    312,
+    313,
+    314,
+    315,
+    316,
+    317,
+    318,
+    319
+  ],
+  "existing": {
+    "file": "imatrix_calib.txt",
+    "sha256": "2a3fbc1939e55b4c28e00abc6d3dc1483e9b86718e856ea4cb66eb0edcb9cc76",
+    "docs": 120,
+    "tokens_total": 93306,
+    "tokens_used": 93306
+  },
+  "supplement": {
+    "dataset": "HuggingFaceFW/fineweb-2",
+    "config": "jpn_Jpan",
+    "split": "train",
+    "data_file": "data/jpn_Jpan/train/000_00000.parquet",
+    "revision": "af9c13333eb981300149d5ca60a8e9d659b276b9",
+    "streaming": true,
+    "shuffle_seed": 0,
+    "shuffle_buffer": 1000,
+    "license": "ODC-By 1.0",
+    "tokens_fetched": 234493,
+    "tokens_used": 168838,
+    "docs_consumed": 413,
+    "skipped": {
+      "short": 16,
+      "duplicate": 0,
+      "contaminated": 0
+    },
+    "doc_ids": [
+      {
+        "id": "<urn:uuid:79b9adca-7bfd-4212-919d-72eff8770431>",
+        "tokens": 512
+      },
+      {
+        "id": "<urn:uuid:f559bd67-479a-42d5-b080-b002c155ea72>",
+        "tokens": 418
+      },
+      {
+        "id": "<urn:uuid:94f2b8ae-1b29-4bf3-9e9c-6458cc23b1f3>",
+        "tokens": 405
+      },
+      {
+        "id": "<urn:uuid:2317cffd-be50-408a-a4f6-5095ab9ed3be>",
+        "tokens": 1564
+      },
+      {
+        "id": "<urn:uuid:1ea4fdb2-fe61-4f70-a468-99b8575ee2b6>",
+        "tokens": 1466
+      },
+      {
+        "id": "<urn:uuid:a31b5a0a-c836-4720-83da-67e85bb5d0db>",
+        "tokens": 1378
+      },
+      {
+        "id": "<urn:uuid:8fc63525-298d-4635-bca7-5e83ac07cccf>",
+        "tokens": 428
+      },
+      {
+        "id": "<urn:uuid:8cb949fa-77ca-4cca-bcd0-db534e735432>",
+        "tokens": 117
+      },
+      {
+        "id": "<urn:uuid:bef75dba-d169-4441-8cac-a1cabc99aaba>",
+        "tokens": 589
+      },
+      {
+        "id": "<urn:uuid:1edb038d-f2f7-426f-8c30-fa1ed159b236>",
+        "tokens": 275
+      },
+      {
+        "id": "<urn:uuid:d76330f3-5a79-494c-8520-41853f710284>",
+        "tokens": 564
+      },
+      {
+        "id": "<urn:uuid:aeaefd7e-6efa-44d2-bf25-b4eef0b7d9d8>",
+        "tokens": 1108
+      },
+      {
+        "id": "<urn:uuid:cb00a929-3bcc-4d07-868c-20ad3757bf48>",
+        "tokens": 719
+      },
+      {
+        "id": "<urn:uuid:8bd2abfa-59d3-4017-a77d-3be8019f5448>",
+        "tokens": 1726
+      },
+      {
+        "id": "<urn:uuid:dcc71300-4b24-4f7b-bca6-7a1d4efdd36e>",
+        "tokens": 321
+      },
+      {
+        "id": "<urn:uuid:a66e33f0-ed08-42ce-acaa-d11a64d50c4c>",
+        "tokens": 1066
+      },
+      {
+        "id": "<urn:uuid:fa166946-7999-4d42-9231-7259024f49e1>",
+        "tokens": 1520
+      },
+      {
+        "id": "<urn:uuid:238729de-b914-4ca9-8099-650e00942e7a>",
+        "tokens": 249
+      },
+      {
+        "id": "<urn:uuid:b904a270-5d39-43b0-a82d-f87dac4308f4>",
+        "tokens": 462
+      },
+      {
+        "id": "<urn:uuid:61bde466-1451-491b-a6a0-acc1c47a346d>",
+        "tokens": 525
+      },
+      {
+        "id": "<urn:uuid:83d26455-70e4-43bb-9fec-ebfa44876dd7>",
+        "tokens": 251
+      },
+      {
+        "id": "<urn:uuid:1add4d96-e93f-4ebd-8134-55da8723b5b6>",
+        "tokens": 723
+      },
+      {
+        "id": "<urn:uuid:2bec9d9f-d824-49c1-b8e3-6d23e6691bf1>",
+        "tokens": 1458
+      },
+      {
+        "id": "<urn:uuid:355cc0c1-ec04-442c-bd3c-302f752ba0a5>",
+        "tokens": 275
+      },
+      {
+        "id": "<urn:uuid:cae39aad-24e3-4c58-91af-2014e77346e9>",
+        "tokens": 225
+      },
+      {
+        "id": "<urn:uuid:9852a2f5-0314-4cb3-ac67-7de55aca37e2>",
+        "tokens": 1299
+      },
+      {
+        "id": "<urn:uuid:db017c9d-787f-4316-aa98-3eee68c4b98e>",
+        "tokens": 643
+      },
+      {
+        "id": "<urn:uuid:abfa91bd-7348-41bf-a9ff-f86751ca0bab>",
+        "tokens": 439
+      },
+      {
+        "id": "<urn:uuid:d6c42abb-8d47-4813-a468-aded7068dde1>",
+        "tokens": 435
+      },
+      {
+        "id": "<urn:uuid:fc77934a-4c91-4071-8a34-38122a5dec0e>",
+        "tokens": 1492
+      },
+      {
+        "id": "<urn:uuid:6728a18b-5607-4bf5-8044-823c38600b66>",
+        "tokens": 265
+      },
+      {
+        "id": "<urn:uuid:3fc5c2a5-c3a7-409c-b7f4-a203f187c4ab>",
+        "tokens": 691
+      },
+      {
+        "id": "<urn:uuid:730eac7f-91b9-48c9-85cb-621057536fab>",
+        "tokens": 679
+      },
+      {
+        "id": "<urn:uuid:e8d4c3ac-ab3c-4f59-82b6-492433810cf1>",
+        "tokens": 247
+      },
+      {
+        "id": "<urn:uuid:5be07773-0d80-4313-8010-0b39bdc74025>",
+        "tokens": 362
+      },
+      {
+        "id": "<urn:uuid:5b578fce-f55a-4f9a-a3e0-a7b480a73678>",
+        "tokens": 240
+      },
+      {
+        "id": "<urn:uuid:c26b8701-23cb-4532-8829-8413ad293ae0>",
+        "tokens": 2047
+      },
+      {
+        "id": "<urn:uuid:792a768a-0b2b-4b74-89d7-490c56ad69b3>",
+        "tokens": 182
+      },
+      {
+        "id": "<urn:uuid:7830bccd-9f45-43af-ad10-99f8b186eb8e>",
+        "tokens": 167
+      },
+      {
+        "id": "<urn:uuid:597dfa7f-ed6c-4c9e-9481-b1d387c4fa2b>",
+        "tokens": 1417
+      },
+      {
+        "id": "<urn:uuid:20ae3f2b-fbf8-4e45-b68b-0d2201174c12>",
+        "tokens": 1575
+      },
+      {
+        "id": "<urn:uuid:f6fa6d2b-3137-4801-8029-60df14071cb5>",
+        "tokens": 1703
+      },
+      {
+        "id": "<urn:uuid:dc45ad9d-e334-4cd8-821d-5e36894cac4c>",
+        "tokens": 299
+      },
+      {
+        "id": "<urn:uuid:49b657c2-a33a-45c4-9538-b73e49c08cc5>",
+        "tokens": 201
+      },
+      {
+        "id": "<urn:uuid:0ac9c2b8-f4c3-43d7-9ca9-59f33c9d65d1>",
+        "tokens": 267
+      },
+      {
+        "id": "<urn:uuid:3cc1afcd-c2e7-4926-ad7b-4b82c2b7da8b>",
+        "tokens": 93
+      },
+      {
+        "id": "<urn:uuid:037a07be-3efc-4ab7-be4e-160c4018fc26>",
+        "tokens": 1398
+      },
+      {
+        "id": "<urn:uuid:216c90da-1205-45e3-981e-6ab773f87329>",
+        "tokens": 576
+      },
+      {
+        "id": "<urn:uuid:fd6daf03-7616-46c2-85e2-f27b6e5c399b>",
+        "tokens": 623
+      },
+      {
+        "id": "<urn:uuid:49c4bdc6-d702-4bae-9a4e-b581d58fee8c>",
+        "tokens": 345
+      },
+      {
+        "id": "<urn:uuid:fc89de2b-0fc7-438e-8a96-94109005583a>",
+        "tokens": 140
+      },
+      {
+        "id": "<urn:uuid:4ab11fca-fb99-4c0b-8e66-d4e7a2d6c62d>",
+        "tokens": 1627
+      },
+      {
+        "id": "<urn:uuid:d8ece035-3ade-4853-9332-fc48b7b30ee2>",
+        "tokens": 209
+      },
+      {
+        "id": "<urn:uuid:15cd6fe4-e9bf-44a2-882b-12f2e209f89c>",
+        "tokens": 141
+      },
+      {
+        "id": "<urn:uuid:4aaaf4ea-506a-4400-a412-aec467606ee5>",
+        "tokens": 1369
+      },
+      {
+        "id": "<urn:uuid:4cc4e92b-74c5-4ea9-931e-f9ae0760f694>",
+        "tokens": 1469
+      },
+      {
+        "id": "<urn:uuid:5c071885-00de-457c-8f63-01a37b242205>",
+        "tokens": 306
+      },
+      {
+        "id": "<urn:uuid:0917e502-0d5b-478f-88f5-137d5653d99d>",
+        "tokens": 158
+      },
+      {
+        "id": "<urn:uuid:46ae53c9-af69-4a8c-ac18-d9f1256b42b8>",
+        "tokens": 160
+      },
+      {
+        "id": "<urn:uuid:f1d5f42e-3a2a-42dd-ba72-c1ed24c51b1d>",
+        "tokens": 247
+      },
+      {
+        "id": "<urn:uuid:a2a4d501-7369-47b1-adbc-6903da8fd5d5>",
+        "tokens": 262
+      },
+      {
+        "id": "<urn:uuid:230f6c4c-eb72-46b2-80b1-6ad14d8ee435>",
+        "tokens": 295
+      },
+      {
+        "id": "<urn:uuid:3ad4f517-2a2c-4338-b0ae-ca2314db0c94>",
+        "tokens": 787
+      },
+      {
+        "id": "<urn:uuid:96f9d0ee-43d4-4c3c-b441-2edd2c4b7114>",
+        "tokens": 767
+      },
+      {
+        "id": "<urn:uuid:d0f7cec7-f804-4615-8269-2468a0d15cc8>",
+        "tokens": 238
+      },
+      {
+        "id": "<urn:uuid:6c1663b8-d739-48de-8a97-d614c80c7a8f>",
+        "tokens": 255
+      },
+      {
+        "id": "<urn:uuid:6dff29ca-fe31-433e-a222-52338391da1c>",
+        "tokens": 244
+      },
+      {
+        "id": "<urn:uuid:42a86408-93ed-4868-888b-b558bb89f419>",
+        "tokens": 542
+      },
+      {
+        "id": "<urn:uuid:40acacaa-fd0a-4130-883f-0ed6b250b068>",
+        "tokens": 199
+      },
+      {
+        "id": "<urn:uuid:a992bd87-2a29-4e9c-9ed4-1a84777702e1>",
+        "tokens": 583
+      },
+      {
+        "id": "<urn:uuid:6adcd818-eb4f-4397-8dff-a9e69e7fc37f>",
+        "tokens": 468
+      },
+      {
+        "id": "<urn:uuid:b3225105-4120-4a01-abdb-85387dd427d9>",
+        "tokens": 327
+      },
+      {
+        "id": "<urn:uuid:aa865dd0-cc5c-4a15-9cc1-7062201415c7>",
+        "tokens": 498
+      },
+      {
+        "id": "<urn:uuid:21528465-221a-49b9-9bd5-9bb852ad8265>",
+        "tokens": 913
+      },
+      {
+        "id": "<urn:uuid:cef42e21-8244-4931-a804-2c44998c7dcf>",
+        "tokens": 108
+      },
+      {
+        "id": "<urn:uuid:941adb71-6cb2-4540-86b1-ed769fdd0b06>",
+        "tokens": 407
+      },
+      {
+        "id": "<urn:uuid:78540b0b-f4be-4494-88f9-61c146f5fcaa>",
+        "tokens": 326
+      },
+      {
+        "id": "<urn:uuid:cc4f918d-7349-49b8-b71c-8f5e6924a0eb>",
+        "tokens": 340
+      },
+      {
+        "id": "<urn:uuid:6ad29cf6-4b13-41a3-9918-1e417b48dc08>",
+        "tokens": 119
+      },
+      {
+        "id": "<urn:uuid:19354c02-34b0-41e3-abb5-a8e84f213f86>",
+        "tokens": 197
+      },
+      {
+        "id": "<urn:uuid:ddad1999-996f-4097-9350-aaac62a51dfb>",
+        "tokens": 166
+      },
+      {
+        "id": "<urn:uuid:95849c06-7023-4660-8247-c4c23715f433>",
+        "tokens": 227
+      },
+      {
+        "id": "<urn:uuid:398576ba-89bb-4bbd-93f5-f127e1e73dc7>",
+        "tokens": 1900
+      },
+      {
+        "id": "<urn:uuid:0d3a7263-415d-4a48-bc6e-820167f18842>",
+        "tokens": 494
+      },
+      {
+        "id": "<urn:uuid:aeeae851-baef-44f8-ac00-177320ea93bc>",
+        "tokens": 302
+      },
+      {
+        "id": "<urn:uuid:020689a4-776f-4927-b409-ba350217193f>",
+        "tokens": 285
+      },
+      {
+        "id": "<urn:uuid:63e0f471-2d34-4ea7-b411-4b158966915b>",
+        "tokens": 149
+      },
+      {
+        "id": "<urn:uuid:ee379619-c460-4072-b40d-3b81002c9a79>",
+        "tokens": 877
+      },
+      {
+        "id": "<urn:uuid:5defb1d1-ed4c-4a92-b11e-5565b2e2841a>",
+        "tokens": 570
+      },
+      {
+        "id": "<urn:uuid:68d1e781-b164-4445-a557-31ed20650132>",
+        "tokens": 205
+      },
+      {
+        "id": "<urn:uuid:c53e31d4-8f69-4840-bc19-7fc84e6ed131>",
+        "tokens": 350
+      },
+      {
+        "id": "<urn:uuid:f58f768c-5616-4d38-ba74-d0905c647a86>",
+        "tokens": 190
+      },
+      {
+        "id": "<urn:uuid:fd13426e-63f6-4e66-9486-497875d86994>",
+        "tokens": 1521
+      },
+      {
+        "id": "<urn:uuid:a0755056-ff72-44e1-bd36-09d05401178a>",
+        "tokens": 209
+      },
+      {
+        "id": "<urn:uuid:03e7fb02-a203-4909-b39d-adf18699151a>",
+        "tokens": 297
+      },
+      {
+        "id": "<urn:uuid:9b001cec-155d-47e3-8d9a-bbfd472d5cfa>",
+        "tokens": 569
+      },
+      {
+        "id": "<urn:uuid:28ace04f-84cb-40f1-9f8c-42951ec9dc7f>",
+        "tokens": 154
+      },
+      {
+        "id": "<urn:uuid:428b9d31-fcf7-4ac0-98c2-36f63c45ad12>",
+        "tokens": 945
+      },
+      {
+        "id": "<urn:uuid:c332186c-c323-4072-8895-103fefc81d8d>",
+        "tokens": 205
+      },
+      {
+        "id": "<urn:uuid:5ce56285-41c6-48b0-8ef4-0e759975fe35>",
+        "tokens": 160
+      },
+      {
+        "id": "<urn:uuid:0b38db85-c28a-4a89-bcb7-9db434d98b41>",
+        "tokens": 912
+      },
+      {
+        "id": "<urn:uuid:11e969d1-4ee3-46f1-a594-703f4dce49ad>",
+        "tokens": 945
+      },
+      {
+        "id": "<urn:uuid:1f13e5ea-d3bb-45da-a79a-3207b5998504>",
+        "tokens": 1398
+      },
+      {
+        "id": "<urn:uuid:d3820afe-48d9-46ca-a605-3ca32e81d57a>",
+        "tokens": 1158
+      },
+      {
+        "id": "<urn:uuid:2d7fa92e-c853-4a12-9515-39c53e0e4bba>",
+        "tokens": 791
+      },
+      {
+        "id": "<urn:uuid:1e436556-faa2-4b3e-92dc-72e16d7c2d6e>",
+        "tokens": 871
+      },
+      {
+        "id": "<urn:uuid:0ac7dc41-926d-418c-ae6f-df9ba948869f>",
+        "tokens": 164
+      },
+      {
+        "id": "<urn:uuid:1693988f-ee96-4d06-bb4c-94b26f69703b>",
+        "tokens": 358
+      },
+      {
+        "id": "<urn:uuid:97a248cb-5b5d-433f-8272-0c9bd4f8e56a>",
+        "tokens": 146
+      },
+      {
+        "id": "<urn:uuid:636377c4-a8c1-47de-a51a-37fec8294958>",
+        "tokens": 824
+      },
+      {
+        "id": "<urn:uuid:ceee8e3b-a192-4d13-878e-53f1df74fd0f>",
+        "tokens": 111
+      },
+      {
+        "id": "<urn:uuid:47000d30-66fd-4789-b40b-808893f4df13>",
+        "tokens": 380
+      },
+      {
+        "id": "<urn:uuid:cf4a95c0-3079-47cc-975e-1b80f73ff474>",
+        "tokens": 695
+      },
+      {
+        "id": "<urn:uuid:5fe35728-506c-457a-9c1b-5bda19a8b541>",
+        "tokens": 165
+      },
+      {
+        "id": "<urn:uuid:8f5a3644-c52c-402b-8f7f-62f395e578e0>",
+        "tokens": 196
+      },
+      {
+        "id": "<urn:uuid:7921a084-77f5-4669-9d4f-2bd6bd9f5233>",
+        "tokens": 196
+      },
+      {
+        "id": "<urn:uuid:05f2ba3e-8b69-4ca5-88a2-bbd56b4163fd>",
+        "tokens": 1771
+      },
+      {
+        "id": "<urn:uuid:0133c771-c770-4d73-a0f0-62151932265f>",
+        "tokens": 185
+      },
+      {
+        "id": "<urn:uuid:25b1a408-6315-49b1-a062-5e50adbc2317>",
+        "tokens": 363
+      },
+      {
+        "id": "<urn:uuid:d9a2341e-bd42-47ab-9f0d-175314d83afa>",
+        "tokens": 260
+      },
+      {
+        "id": "<urn:uuid:5900e5d4-fac4-4c5e-b6dd-ea1fe39a3827>",
+        "tokens": 211
+      },
+      {
+        "id": "<urn:uuid:9bb212e1-2225-4b77-83c1-dbf011c47711>",
+        "tokens": 199
+      },
+      {
+        "id": "<urn:uuid:9e71a8e6-1a60-4e7f-8ca9-27df02e154a3>",
+        "tokens": 1558
+      },
+      {
+        "id": "<urn:uuid:3ac3ddcf-6465-4303-91ac-718c0cc5fe6e>",
+        "tokens": 432
+      },
+      {
+        "id": "<urn:uuid:0eb5b900-fe44-436a-9f94-87d180237c5f>",
+        "tokens": 901
+      },
+      {
+        "id": "<urn:uuid:4dbcd616-2444-4e2b-b52c-e4bb751c4e1f>",
+        "tokens": 215
+      },
+      {
+        "id": "<urn:uuid:53af331b-176e-4b6a-8af7-8568f89a462d>",
+        "tokens": 358
+      },
+      {
+        "id": "<urn:uuid:56709fd1-c648-4eba-aacd-0baf58a3cddc>",
+        "tokens": 560
+      },
+      {
+        "id": "<urn:uuid:196e4f70-d2c7-42e4-81bd-bb80577959a9>",
+        "tokens": 564
+      },
+      {
+        "id": "<urn:uuid:5196bb54-72ae-4ed8-8e18-3b17162fb450>",
+        "tokens": 374
+      },
+      {
+        "id": "<urn:uuid:01fc081f-5a77-4dbc-84c5-1b542f3fa1d9>",
+        "tokens": 201
+      },
+      {
+        "id": "<urn:uuid:a21706c8-7617-47a5-b401-08f4dee106cf>",
+        "tokens": 139
+      },
+      {
+        "id": "<urn:uuid:82617b60-8cba-49c2-86a6-7d59e47aeec8>",
+        "tokens": 258
+      },
+      {
+        "id": "<urn:uuid:a2931da3-1530-4c99-83da-c1a61b7c43e1>",
+        "tokens": 555
+      },
+      {
+        "id": "<urn:uuid:c37163a3-6953-46cf-b826-b9366977d066>",
+        "tokens": 268
+      },
+      {
+        "id": "<urn:uuid:613de311-528d-4257-b1e1-527ed1a13d46>",
+        "tokens": 257
+      },
+      {
+        "id": "<urn:uuid:e7161aab-c736-4c5b-a422-ddb7ed456471>",
+        "tokens": 369
+      },
+      {
+        "id": "<urn:uuid:70a3eaed-e105-4259-9ce2-4701686708bb>",
+        "tokens": 175
+      },
+      {
+        "id": "<urn:uuid:786284d4-549d-4a33-9cb3-b1a69e9f54f2>",
+        "tokens": 96
+      },
+      {
+        "id": "<urn:uuid:54e6ac45-f7f0-47d7-ab6e-055ac37196ec>",
+        "tokens": 262
+      },
+      {
+        "id": "<urn:uuid:2e03f423-fab5-40f9-a0dd-33ae4bde9e1f>",
+        "tokens": 1669
+      },
+      {
+        "id": "<urn:uuid:2d56e861-711f-402a-b595-9b5d938c5271>",
+        "tokens": 172
+      },
+      {
+        "id": "<urn:uuid:b514832f-3825-41dc-a861-f9722d1f1b65>",
+        "tokens": 1692
+      },
+      {
+        "id": "<urn:uuid:761a8243-ad43-46c3-b2cd-9edaa88e1365>",
+        "tokens": 269
+      },
+      {
+        "id": "<urn:uuid:9931442a-068a-41ff-8ee2-dd927444f417>",
+        "tokens": 1464
+      },
+      {
+        "id": "<urn:uuid:c0fd6540-2d0a-4b02-95c0-4346d549d781>",
+        "tokens": 221
+      },
+      {
+        "id": "<urn:uuid:cb89e38b-4d8c-49de-846f-2f3cdab1c472>",
+        "tokens": 1321
+      },
+      {
+        "id": "<urn:uuid:1b920c41-7ce6-462d-86ef-342c813b47bf>",
+        "tokens": 1568
+      },
+      {
+        "id": "<urn:uuid:f3eeaa04-c134-459a-b258-e4093ce1a053>",
+        "tokens": 770
+      },
+      {
+        "id": "<urn:uuid:2e4a7121-f484-4f65-baf3-f6bf85c8ba99>",
+        "tokens": 191
+      },
+      {
+        "id": "<urn:uuid:c4d476e5-a2c6-4de9-ac56-7703356758c5>",
+        "tokens": 905
+      },
+      {
+        "id": "<urn:uuid:f76675df-0c62-4830-bbce-424b137d30c6>",
+        "tokens": 423
+      },
+      {
+        "id": "<urn:uuid:7109f750-d773-4719-8d80-0d131ca5c4ba>",
+        "tokens": 572
+      },
+      {
+        "id": "<urn:uuid:edb6fd1e-a353-42bb-b5b1-c457f0b4e6c7>",
+        "tokens": 361
+      },
+      {
+        "id": "<urn:uuid:0b3a2a14-9f99-43f3-ba2e-3da5743d47ff>",
+        "tokens": 1494
+      },
+      {
+        "id": "<urn:uuid:dc2942a5-2877-4b1c-bb00-fc4a0fa9ba2b>",
+        "tokens": 143
+      },
+      {
+        "id": "<urn:uuid:2bf3ca13-be8b-4bc2-b09f-a676cca4afe0>",
+        "tokens": 479
+      },
+      {
+        "id": "<urn:uuid:41d49869-b4de-4c54-8b53-2818b07f8bf1>",
+        "tokens": 466
+      },
+      {
+        "id": "<urn:uuid:ac4cb48a-a78c-4c24-9dc5-bdc8850bd4e6>",
+        "tokens": 294
+      },
+      {
+        "id": "<urn:uuid:8b719a58-d299-4ecc-9501-9a6ceada64b1>",
+        "tokens": 392
+      },
+      {
+        "id": "<urn:uuid:7098aebb-e93c-4894-8fdf-b4c39e1df9b3>",
+        "tokens": 184
+      },
+      {
+        "id": "<urn:uuid:f976f29b-8f83-4dee-9988-a9baa1c53527>",
+        "tokens": 352
+      },
+      {
+        "id": "<urn:uuid:3314f3c8-d903-4b0d-9ee1-e40fb99a7f29>",
+        "tokens": 331
+      },
+      {
+        "id": "<urn:uuid:87aa48df-a890-47d2-9aa2-b1684fb737e9>",
+        "tokens": 1414
+      },
+      {
+        "id": "<urn:uuid:7d8a0dbd-c5c7-4685-a09a-e32f62f3dcca>",
+        "tokens": 1513
+      },
+      {
+        "id": "<urn:uuid:5f1eb2af-a1cd-40dd-916e-49d89518fb11>",
+        "tokens": 128
+      },
+      {
+        "id": "<urn:uuid:58686437-f1bf-4c96-8e73-56d61cb66cb7>",
+        "tokens": 405
+      },
+      {
+        "id": "<urn:uuid:4d0f465c-5d3e-4df7-a2c2-e83667ada996>",
+        "tokens": 169
+      },
+      {
+        "id": "<urn:uuid:6c21950a-25ba-4ea2-96ab-048810df1494>",
+        "tokens": 251
+      },
+      {
+        "id": "<urn:uuid:c4eb668d-98db-4661-be31-0a68da9c3c50>",
+        "tokens": 1326
+      },
+      {
+        "id": "<urn:uuid:946f5b04-6f3a-4b01-b5db-bee4c1711fc2>",
+        "tokens": 455
+      },
+      {
+        "id": "<urn:uuid:e852f37a-f7c7-4a23-a9f6-d58f0e505a59>",
+        "tokens": 1349
+      },
+      {
+        "id": "<urn:uuid:78e41f0f-b4b6-404e-90ce-2e5f99f638be>",
+        "tokens": 313
+      },
+      {
+        "id": "<urn:uuid:16dc97b2-d656-472e-8847-645f61528ef4>",
+        "tokens": 465
+      },
+      {
+        "id": "<urn:uuid:96866753-a78b-4f54-bc02-d592c42d55fa>",
+        "tokens": 344
+      },
+      {
+        "id": "<urn:uuid:21db6053-1515-47d5-a7b5-7898601de0e2>",
+        "tokens": 530
+      },
+      {
+        "id": "<urn:uuid:f20080a8-bda3-40b9-9d9c-f14ca36cc9e5>",
+        "tokens": 652
+      },
+      {
+        "id": "<urn:uuid:91089eab-4962-4c54-84df-9d6bda29e2f1>",
+        "tokens": 300
+      },
+      {
+        "id": "<urn:uuid:67f65328-d739-4117-a279-3e4541b3bd65>",
+        "tokens": 1201
+      },
+      {
+        "id": "<urn:uuid:6cca17e5-4103-4f5a-92d6-b2c9f2907422>",
+        "tokens": 174
+      },
+      {
+        "id": "<urn:uuid:c9235ce4-f403-4519-b78e-a6f35c05852f>",
+        "tokens": 133
+      },
+      {
+        "id": "<urn:uuid:f7df455b-a4e9-4a1c-bf0a-ab5a38acc4ca>",
+        "tokens": 218
+      },
+      {
+        "id": "<urn:uuid:4bf43813-6ea8-4b52-b62f-cdb3a73a66a6>",
+        "tokens": 301
+      },
+      {
+        "id": "<urn:uuid:7ceaaf2d-d9da-4ba0-8735-175dfed969b3>",
+        "tokens": 442
+      },
+      {
+        "id": "<urn:uuid:af19618e-0036-41f5-8e76-0c8a2aabd3af>",
+        "tokens": 226
+      },
+      {
+        "id": "<urn:uuid:b3273558-611c-4202-b9a7-f88ea81666eb>",
+        "tokens": 139
+      },
+      {
+        "id": "<urn:uuid:99ac4db9-c09d-4039-a34d-4ff63dbb311c>",
+        "tokens": 471
+      },
+      {
+        "id": "<urn:uuid:29afc501-f284-4d1e-a240-0e7cdd6eaec6>",
+        "tokens": 506
+      },
+      {
+        "id": "<urn:uuid:72807874-ac04-4383-ac0f-ffa04d69bee5>",
+        "tokens": 508
+      },
+      {
+        "id": "<urn:uuid:4989389e-db15-4617-949e-8695b2f86f95>",
+        "tokens": 804
+      },
+      {
+        "id": "<urn:uuid:8dfa71d4-c9c1-4350-b62c-063ae6a349f0>",
+        "tokens": 1335
+      },
+      {
+        "id": "<urn:uuid:75ab7d6e-5128-4621-94e9-3fbb46c1353a>",
+        "tokens": 831
+      },
+      {
+        "id": "<urn:uuid:e9b1f4c6-6fb2-4359-8430-2a74a06360de>",
+        "tokens": 1134
+      },
+      {
+        "id": "<urn:uuid:47ee30fd-b406-4a5d-949d-ecee9085452a>",
+        "tokens": 337
+      },
+      {
+        "id": "<urn:uuid:e8d6e79b-ccf3-4e08-b85b-d2c8de653449>",
+        "tokens": 347
+      },
+      {
+        "id": "<urn:uuid:484aa49f-bd3a-41c4-8378-b04b0216fc40>",
+        "tokens": 500
+      },
+      {
+        "id": "<urn:uuid:01c7db5f-599f-4d63-a8c8-7428f088697f>",
+        "tokens": 680
+      },
+      {
+        "id": "<urn:uuid:e8057090-af07-41cb-bd1d-6853179263ba>",
+        "tokens": 356
+      },
+      {
+        "id": "<urn:uuid:bc205336-6472-4c65-92e0-eb5f41e4271c>",
+        "tokens": 236
+      },
+      {
+        "id": "<urn:uuid:2c403c71-cba5-4706-91cb-dda34e6fd2a4>",
+        "tokens": 143
+      },
+      {
+        "id": "<urn:uuid:9a1d4578-8611-4004-ba26-6522d5e1af69>",
+        "tokens": 174
+      },
+      {
+        "id": "<urn:uuid:2b61b5b6-addd-4959-90e2-344a660939d7>",
+        "tokens": 132
+      },
+      {
+        "id": "<urn:uuid:0adc6927-b041-4244-a16f-5db6eb0e41f8>",
+        "tokens": 209
+      },
+      {
+        "id": "<urn:uuid:90058d26-e41f-46d5-b122-efacbc412305>",
+        "tokens": 320
+      },
+      {
+        "id": "<urn:uuid:63821894-6b85-4bec-b50b-6351a994f3d0>",
+        "tokens": 643
+      },
+      {
+        "id": "<urn:uuid:0fd2371b-0924-4eca-a9f4-fdb7fd6408b4>",
+        "tokens": 99
+      },
+      {
+        "id": "<urn:uuid:2266f39b-1f7d-4afe-9416-6fe0df39161e>",
+        "tokens": 700
+      },
+      {
+        "id": "<urn:uuid:d0069743-f007-4b4b-9e29-304399bba996>",
+        "tokens": 289
+      },
+      {
+        "id": "<urn:uuid:c6fcce76-722d-4346-9934-5844e24d67a0>",
+        "tokens": 410
+      },
+      {
+        "id": "<urn:uuid:f5f3f68c-2f4c-4c9d-a980-4cb71ce0b87a>",
+        "tokens": 949
+      },
+      {
+        "id": "<urn:uuid:4bb8fe4e-b879-4964-9e25-5f775dab0890>",
+        "tokens": 207
+      },
+      {
+        "id": "<urn:uuid:cbc09ce2-420f-4818-8195-a8f9a3b8b853>",
+        "tokens": 94
+      },
+      {
+        "id": "<urn:uuid:32e88292-504c-40b4-98dc-0fdf96256bdf>",
+        "tokens": 1312
+      },
+      {
+        "id": "<urn:uuid:8057f684-ee5b-4f57-99f1-84ed9d638034>",
+        "tokens": 473
+      },
+      {
+        "id": "<urn:uuid:95d24c92-ad18-462e-9cbd-d3d53cc19eb8>",
+        "tokens": 123
+      },
+      {
+        "id": "<urn:uuid:c7a9d16c-7b0f-45da-87ab-7086863b4f4f>",
+        "tokens": 415
+      },
+      {
+        "id": "<urn:uuid:781e7026-cf10-47f2-aee0-cf6e8cb7c639>",
+        "tokens": 521
+      },
+      {
+        "id": "<urn:uuid:f682b139-2879-4d1e-ad42-e847d5eee221>",
+        "tokens": 284
+      },
+      {
+        "id": "<urn:uuid:cbefa3f6-75ac-4e54-a1d8-90a258568974>",
+        "tokens": 179
+      },
+      {
+        "id": "<urn:uuid:f79e7d6a-fc9a-4f54-ae23-5d1af2493b93>",
+        "tokens": 311
+      },
+      {
+        "id": "<urn:uuid:849bfc87-2b94-4dd9-a01a-50de2f8ca7ef>",
+        "tokens": 190
+      },
+      {
+        "id": "<urn:uuid:40dce298-5a67-4a35-ae32-1c960564d811>",
+        "tokens": 1722
+      },
+      {
+        "id": "<urn:uuid:5cc6bd7c-9cf8-48b8-b7ce-297e29294b83>",
+        "tokens": 570
+      },
+      {
+        "id": "<urn:uuid:379436f8-da33-43cd-a731-f519d0789ff4>",
+        "tokens": 274
+      },
+      {
+        "id": "<urn:uuid:ec0ac75c-d178-44f1-99fa-5eceb037d83a>",
+        "tokens": 282
+      },
+      {
+        "id": "<urn:uuid:d5d460b2-e0d1-4205-b2e9-c7ff17e22ff9>",
+        "tokens": 137
+      },
+      {
+        "id": "<urn:uuid:bac85b28-5dae-4283-8679-4877482e8c54>",
+        "tokens": 185
+      },
+      {
+        "id": "<urn:uuid:691b2d7f-beb7-467d-8e71-ca4224d39212>",
+        "tokens": 1040
+      },
+      {
+        "id": "<urn:uuid:c92d6f06-47e7-49a3-9b26-5c7edd9a0b46>",
+        "tokens": 525
+      },
+      {
+        "id": "<urn:uuid:eb141c3f-bc02-4f0a-a00a-2de4f612c1e6>",
+        "tokens": 156
+      },
+      {
+        "id": "<urn:uuid:5ff19585-2056-4db3-bad9-d427e0aee6e6>",
+        "tokens": 616
+      },
+      {
+        "id": "<urn:uuid:116adc64-3a33-4cd0-b062-d9a6730de7b3>",
+        "tokens": 201
+      },
+      {
+        "id": "<urn:uuid:361cd72c-470a-4e5d-a322-a837c14fbf5d>",
+        "tokens": 189
+      },
+      {
+        "id": "<urn:uuid:0c5e2ee7-a5e4-439a-b55e-ffb7cd3bcffc>",
+        "tokens": 255
+      },
+      {
+        "id": "<urn:uuid:46b2c4af-514c-4640-97b6-8176de0a0dd4>",
+        "tokens": 424
+      },
+      {
+        "id": "<urn:uuid:fb12c001-641e-4c55-b36e-c587d963116e>",
+        "tokens": 360
+      },
+      {
+        "id": "<urn:uuid:89b3dae5-8a49-4d51-ad27-9897a5a81cfa>",
+        "tokens": 381
+      },
+      {
+        "id": "<urn:uuid:5b949cb6-6c7a-43b3-9517-45a9a0c2adf4>",
+        "tokens": 807
+      },
+      {
+        "id": "<urn:uuid:fa71ed45-6517-4a2a-bbae-66cd53d00292>",
+        "tokens": 1536
+      },
+      {
+        "id": "<urn:uuid:f4f891f2-5e7d-4625-a965-b5da4f6b749c>",
+        "tokens": 243
+      },
+      {
+        "id": "<urn:uuid:b425f482-fe2f-437a-b615-0369455f66b1>",
+        "tokens": 1033
+      },
+      {
+        "id": "<urn:uuid:9746b98b-e8c2-40a3-becf-ce561785b1c2>",
+        "tokens": 180
+      },
+      {
+        "id": "<urn:uuid:6778f650-4a50-4aa4-8644-0fa4a854f622>",
+        "tokens": 477
+      },
+      {
+        "id": "<urn:uuid:ba42e90c-8e7b-428c-9b80-0c7a924abba0>",
+        "tokens": 87
+      },
+      {
+        "id": "<urn:uuid:063a6ddb-42f4-4934-b91c-27749a2d35b2>",
+        "tokens": 443
+      },
+      {
+        "id": "<urn:uuid:d0bfbf56-753a-4b32-b207-4b9ff8e0d116>",
+        "tokens": 115
+      },
+      {
+        "id": "<urn:uuid:e4803431-42d8-48ff-b575-eba15d79e5b8>",
+        "tokens": 260
+      },
+      {
+        "id": "<urn:uuid:96e24548-726e-4f26-82df-87af6bb26136>",
+        "tokens": 510
+      },
+      {
+        "id": "<urn:uuid:fca776f1-8e87-4e3f-bba4-60bf6680917e>",
+        "tokens": 182
+      },
+      {
+        "id": "<urn:uuid:b4d5dd45-a249-46fd-b435-45dcd2e56ff6>",
+        "tokens": 198
+      },
+      {
+        "id": "<urn:uuid:e1d65d8d-1282-4694-8ded-0529046034ca>",
+        "tokens": 284
+      },
+      {
+        "id": "<urn:uuid:0e48d027-880a-4ded-8e4f-a692c91ba1b1>",
+        "tokens": 1081
+      },
+      {
+        "id": "<urn:uuid:e3255eff-6e5d-4fa5-9f16-0c9110849f44>",
+        "tokens": 1725
+      },
+      {
+        "id": "<urn:uuid:837b169b-bc7f-4232-9964-d0f81c444012>",
+        "tokens": 202
+      },
+      {
+        "id": "<urn:uuid:23a91777-23ba-48a8-b0ad-5a9ee0fab193>",
+        "tokens": 249
+      },
+      {
+        "id": "<urn:uuid:3383ba86-6535-4d0e-afbe-77eb83621f8a>",
+        "tokens": 127
+      },
+      {
+        "id": "<urn:uuid:fd251729-4c6d-4897-8f0c-85c521dad944>",
+        "tokens": 272
+      },
+      {
+        "id": "<urn:uuid:ca8f72ce-28c6-408f-b1ef-2b24f0dde06b>",
+        "tokens": 706
+      },
+      {
+        "id": "<urn:uuid:cc9f8617-45c2-48c2-811c-549bbeb05234>",
+        "tokens": 890
+      },
+      {
+        "id": "<urn:uuid:5d7e5df0-88f9-473b-ad2d-1b296e53d880>",
+        "tokens": 821
+      },
+      {
+        "id": "<urn:uuid:5cf12206-9249-4bc4-a851-3631bfe85e79>",
+        "tokens": 287
+      },
+      {
+        "id": "<urn:uuid:6fd0616a-197f-4df7-b8d3-56e4c7f41150>",
+        "tokens": 557
+      },
+      {
+        "id": "<urn:uuid:28280ea1-e53c-4778-b24c-441d1aff6f9b>",
+        "tokens": 459
+      },
+      {
+        "id": "<urn:uuid:71e87404-3875-401c-a909-87e928a4a7d3>",
+        "tokens": 1572
+      },
+      {
+        "id": "<urn:uuid:8068e8a7-271f-4d36-ba2e-ff56d2d30789>",
+        "tokens": 429
+      },
+      {
+        "id": "<urn:uuid:42842011-5e44-4551-ae06-1eaa660770cf>",
+        "tokens": 229
+      },
+      {
+        "id": "<urn:uuid:f8182465-c9ed-4918-9e4c-be241addc3b4>",
+        "tokens": 184
+      },
+      {
+        "id": "<urn:uuid:88406330-b194-495b-8c8e-99b87bb31bb8>",
+        "tokens": 89
+      },
+      {
+        "id": "<urn:uuid:093898c5-7e94-434d-b2d4-97482cc65ae8>",
+        "tokens": 177
+      },
+      {
+        "id": "<urn:uuid:074df392-a7bc-4a0b-a111-a1852e9f92ef>",
+        "tokens": 830
+      },
+      {
+        "id": "<urn:uuid:b3a301a0-6fd9-4f57-bc5a-4bc8e7615faa>",
+        "tokens": 224
+      },
+      {
+        "id": "<urn:uuid:25cb0579-6a74-4cc0-a124-8199a7b951fd>",
+        "tokens": 1895
+      },
+      {
+        "id": "<urn:uuid:31d67801-58c9-44bb-a15e-5ad1f77a6384>",
+        "tokens": 778
+      },
+      {
+        "id": "<urn:uuid:0fca659c-d20c-4ed2-a66c-8328192561cf>",
+        "tokens": 165
+      },
+      {
+        "id": "<urn:uuid:8b0820d8-1208-4c0e-b263-25884adb58c3>",
+        "tokens": 316
+      },
+      {
+        "id": "<urn:uuid:315bc52d-9a34-44a2-adb3-9e1505d10d46>",
+        "tokens": 314
+      },
+      {
+        "id": "<urn:uuid:6057736a-d9a5-481d-8a66-4b775df2faf9>",
+        "tokens": 321
+      },
+      {
+        "id": "<urn:uuid:67db47f2-4f08-4fa5-9d54-14ca602d643e>",
+        "tokens": 1649
+      },
+      {
+        "id": "<urn:uuid:b6336ad6-073c-4a75-974f-b4c3d1f44125>",
+        "tokens": 245
+      },
+      {
+        "id": "<urn:uuid:7485954e-da09-4550-b1be-4ab11cdee3f5>",
+        "tokens": 1077
+      },
+      {
+        "id": "<urn:uuid:dde6cd46-7d5b-4e3f-aed6-192643334875>",
+        "tokens": 234
+      },
+      {
+        "id": "<urn:uuid:5f6ee027-42c7-45fa-a834-6787e6d60e00>",
+        "tokens": 721
+      },
+      {
+        "id": "<urn:uuid:0a39e148-b9f0-4b2c-b238-2b2f1641bd9b>",
+        "tokens": 210
+      },
+      {
+        "id": "<urn:uuid:1bb4fc03-4042-422f-82eb-bfd77c2d5609>",
+        "tokens": 233
+      },
+      {
+        "id": "<urn:uuid:419d002c-3ef1-4261-8412-24f76c4281b3>",
+        "tokens": 129
+      },
+      {
+        "id": "<urn:uuid:d3770068-c323-4560-af04-6c1ee7cf8546>",
+        "tokens": 1252
+      },
+      {
+        "id": "<urn:uuid:57c68a65-aad5-4fb6-b899-ab878e7bf8f7>",
+        "tokens": 845
+      },
+      {
+        "id": "<urn:uuid:efca2f71-7db4-4c23-8756-2392f899cd9d>",
+        "tokens": 561
+      },
+      {
+        "id": "<urn:uuid:a2c5a202-2487-4ce1-b537-d0954fec1259>",
+        "tokens": 665
+      },
+      {
+        "id": "<urn:uuid:8311d85f-5eb5-4fce-baef-b31d2e9b02cf>",
+        "tokens": 161
+      },
+      {
+        "id": "<urn:uuid:ba04b505-2547-442a-b169-4b1bf054037a>",
+        "tokens": 1260
+      },
+      {
+        "id": "<urn:uuid:8e5ca5e0-bbf2-40bb-bb67-ffbac1eefa20>",
+        "tokens": 720
+      },
+      {
+        "id": "<urn:uuid:1cb0fc1c-1a8c-4f73-9ec4-82e9f5c0c879>",
+        "tokens": 1044
+      },
+      {
+        "id": "<urn:uuid:00ac7d62-4e70-4348-844f-52ac395f4c90>",
+        "tokens": 350
+      },
+      {
+        "id": "<urn:uuid:e06bbb95-d027-4327-9a10-7c2312420edd>",
+        "tokens": 269
+      },
+      {
+        "id": "<urn:uuid:855d69d2-5087-4bbd-a376-2ced7f4cc457>",
+        "tokens": 218
+      },
+      {
+        "id": "<urn:uuid:5d149219-a2da-434f-bb2f-fcc3e136fd00>",
+        "tokens": 248
+      },
+      {
+        "id": "<urn:uuid:37b4f958-10d4-4cff-a05d-c1098e8c3157>",
+        "tokens": 334
+      },
+      {
+        "id": "<urn:uuid:da36b749-2bc8-47e4-b50f-ca5f049b3416>",
+        "tokens": 881
+      },
+      {
+        "id": "<urn:uuid:cc67ab4e-2264-48d0-be9f-5852506129aa>",
+        "tokens": 440
+      },
+      {
+        "id": "<urn:uuid:3376f9c2-c152-483c-b573-877d811aecbe>",
+        "tokens": 249
+      },
+      {
+        "id": "<urn:uuid:4db9c80e-611d-46c6-a652-892fdc232882>",
+        "tokens": 90
+      },
+      {
+        "id": "<urn:uuid:190c7542-17c8-499d-85d1-47264e12e529>",
+        "tokens": 920
+      },
+      {
+        "id": "<urn:uuid:7dcf1986-d469-41d5-b2ff-3cdaebe68c57>",
+        "tokens": 1708
+      },
+      {
+        "id": "<urn:uuid:91cb30dd-25b9-41a3-b83e-02acaf14b6d4>",
+        "tokens": 243
+      },
+      {
+        "id": "<urn:uuid:9b95603c-56bd-4cc7-ae56-5cd5a5a23d90>",
+        "tokens": 328
+      },
+      {
+        "id": "<urn:uuid:228970b3-cbfc-486d-9493-e85e5b7558c5>",
+        "tokens": 180
+      },
+      {
+        "id": "<urn:uuid:551dfdd1-5abb-4f39-91e9-9cdabd5e7ef1>",
+        "tokens": 585
+      },
+      {
+        "id": "<urn:uuid:9884d9f7-aa9f-4983-b029-0914a428063c>",
+        "tokens": 506
+      },
+      {
+        "id": "<urn:uuid:464ebf5b-ad38-4d32-9a11-999eb697d5d7>",
+        "tokens": 1484
+      },
+      {
+        "id": "<urn:uuid:17677f8f-6e90-4a17-b317-491d71e780fa>",
+        "tokens": 732
+      },
+      {
+        "id": "<urn:uuid:56bba436-3b19-460d-bf45-5102c5fa3e95>",
+        "tokens": 406
+      },
+      {
+        "id": "<urn:uuid:e2e09084-955a-4967-b78b-3fdcb0d6657e>",
+        "tokens": 587
+      },
+      {
+        "id": "<urn:uuid:cb63c23d-5add-48af-9017-3c200a903f4c>",
+        "tokens": 1739
+      },
+      {
+        "id": "<urn:uuid:04fafc3d-23c6-4578-895a-9d1e0123d6f7>",
+        "tokens": 141
+      },
+      {
+        "id": "<urn:uuid:c3a9730c-74f1-4f6d-bb3f-8c0c2ea11471>",
+        "tokens": 647
+      },
+      {
+        "id": "<urn:uuid:d5e5662e-11d0-49a3-942f-88b92197b440>",
+        "tokens": 119
+      },
+      {
+        "id": "<urn:uuid:307b44f4-dabd-4597-bf0a-32404e418010>",
+        "tokens": 927
+      },
+      {
+        "id": "<urn:uuid:d7535feb-b553-4f9a-86c4-efbdcf7633eb>",
+        "tokens": 1160
+      },
+      {
+        "id": "<urn:uuid:3d54e4ee-566d-4f54-beac-9256873fed63>",
+        "tokens": 738
+      },
+      {
+        "id": "<urn:uuid:17b4c0d7-a003-4b3d-8693-6f7ba2e4ecf4>",
+        "tokens": 205
+      },
+      {
+        "id": "<urn:uuid:81db30d6-7de7-4c16-9a83-c76cc8694cce>",
+        "tokens": 461
+      },
+      {
+        "id": "<urn:uuid:d81225b4-1a39-44a3-bafa-c25b9bda2d9f>",
+        "tokens": 793
+      },
+      {
+        "id": "<urn:uuid:9e5d5959-228c-4275-9dc5-9c0167275edc>",
+        "tokens": 739
+      },
+      {
+        "id": "<urn:uuid:5f717a2d-afd9-4f27-b0ca-e8fd4bda647b>",
+        "tokens": 252
+      },
+      {
+        "id": "<urn:uuid:9bb1db21-d5a6-4f39-b41e-1ffa34ff0856>",
+        "tokens": 1329
+      },
+      {
+        "id": "<urn:uuid:d1888a69-7253-443f-9c9f-4419b97eaba4>",
+        "tokens": 1834
+      },
+      {
+        "id": "<urn:uuid:9480c4c1-72ed-4f77-ab14-efea6d245daf>",
+        "tokens": 269
+      },
+      {
+        "id": "<urn:uuid:29d89400-62fa-4316-a127-5943b67ba61a>",
+        "tokens": 126
+      },
+      {
+        "id": "<urn:uuid:5b6b4c30-55cf-4939-87dd-bc212f8595df>",
+        "tokens": 1376
+      },
+      {
+        "id": "<urn:uuid:b9936f5a-ebb8-4c71-a1b0-65b560c7e312>",
+        "tokens": 374
+      },
+      {
+        "id": "<urn:uuid:9e49e947-891b-4f80-b255-c667979cc5b1>",
+        "tokens": 129
+      },
+      {
+        "id": "<urn:uuid:716ac06f-94fc-4852-8194-f622b5d23bc1>",
+        "tokens": 254
+      },
+      {
+        "id": "<urn:uuid:25de79ff-276a-4062-9b39-6a3a5a21d231>",
+        "tokens": 197
+      },
+      {
+        "id": "<urn:uuid:3fc6e4dd-ae06-4b2a-ab0b-e86b6e7c3167>",
+        "tokens": 206
+      },
+      {
+        "id": "<urn:uuid:80088b6d-9b17-4036-9a02-6d986aacbfa2>",
+        "tokens": 290
+      },
+      {
+        "id": "<urn:uuid:8fda7088-adba-43d6-88b0-3ce3140c3169>",
+        "tokens": 267
+      },
+      {
+        "id": "<urn:uuid:87d34497-1e99-4b47-bde1-4c60e144023b>",
+        "tokens": 299
+      },
+      {
+        "id": "<urn:uuid:eb9c51ce-4cd4-4a27-86dd-93e7ef50328a>",
+        "tokens": 187
+      },
+      {
+        "id": "<urn:uuid:ff92ad82-0a48-458a-a4e8-429ce163429a>",
+        "tokens": 807
+      },
+      {
+        "id": "<urn:uuid:837d0ece-0111-49c1-800d-f88ca7a0b061>",
+        "tokens": 1630
+      },
+      {
+        "id": "<urn:uuid:6db58b92-bfdc-4d5b-83e7-dec0072b065c>",
+        "tokens": 372
+      },
+      {
+        "id": "<urn:uuid:f67460b9-a1cd-4887-a7ee-e158a553ff37>",
+        "tokens": 571
+      },
+      {
+        "id": "<urn:uuid:67be05ce-bfb3-41c4-be32-b9c31c98e639>",
+        "tokens": 512
+      },
+      {
+        "id": "<urn:uuid:bdd2b5a4-a6c4-4cad-8986-f8a29dcd2a75>",
+        "tokens": 162
+      },
+      {
+        "id": "<urn:uuid:ea5c854d-542e-4b29-9e52-d8b1e61a1e28>",
+        "tokens": 734
+      },
+      {
+        "id": "<urn:uuid:5075d725-7766-4bf7-92d0-9f504c2afd76>",
+        "tokens": 206
+      },
+      {
+        "id": "<urn:uuid:a33e7eb7-7ca4-4e0a-a3cf-eeb943d53777>",
+        "tokens": 393
+      },
+      {
+        "id": "<urn:uuid:054c1c7c-ea3a-4283-98ff-bc55a56ed24d>",
+        "tokens": 857
+      },
+      {
+        "id": "<urn:uuid:e150bec0-4740-4d9b-b420-8fc67f25f841>",
+        "tokens": 270
+      },
+      {
+        "id": "<urn:uuid:26af04ed-7c73-47f9-b5d7-6964c9117c7d>",
+        "tokens": 1626
+      },
+      {
+        "id": "<urn:uuid:dc31c11d-1458-495c-9e3a-a7c51c8b14eb>",
+        "tokens": 1668
+      },
+      {
+        "id": "<urn:uuid:e621f6e0-796c-4930-9460-a158349b29ad>",
+        "tokens": 450
+      },
+      {
+        "id": "<urn:uuid:0aaaa515-ddd4-4e37-a5e0-f7e0eb4383f4>",
+        "tokens": 275
+      },
+      {
+        "id": "<urn:uuid:e4b64343-b8fc-40dc-9b83-bdfc754ff56a>",
+        "tokens": 1326
+      },
+      {
+        "id": "<urn:uuid:3c8fc1cb-1522-4cad-ac20-3b64a534a468>",
+        "tokens": 234
+      },
+      {
+        "id": "<urn:uuid:6dc1a8db-2c3e-4e71-8077-dfea174ed3a5>",
+        "tokens": 448
+      },
+      {
+        "id": "<urn:uuid:a588098c-cec4-4d62-befd-fcc1a6151b59>",
+        "tokens": 436
+      },
+      {
+        "id": "<urn:uuid:949e972e-9524-4086-b53a-5185300b13cf>",
+        "tokens": 735
+      },
+      {
+        "id": "<urn:uuid:1dbf413c-8bb4-44ad-a14f-b75d3b5f4c66>",
+        "tokens": 435
+      },
+      {
+        "id": "<urn:uuid:7255b6db-7696-451f-8343-b7c61aa50026>",
+        "tokens": 853
+      },
+      {
+        "id": "<urn:uuid:c651d954-abeb-42d3-91a6-c8a4c8a67d5a>",
+        "tokens": 251
+      },
+      {
+        "id": "<urn:uuid:b2fdeea6-1ab1-43b5-a461-8ef48662fe0f>",
+        "tokens": 251
+      },
+      {
+        "id": "<urn:uuid:b4622af7-1712-4931-aa94-5b52f0b362f1>",
+        "tokens": 322
+      },
+      {
+        "id": "<urn:uuid:1cae9895-4698-4a29-b553-ba85a8c8589c>",
+        "tokens": 251
+      },
+      {
+        "id": "<urn:uuid:b30a473a-e53d-402d-aa9b-51f5f2e97462>",
+        "tokens": 1632
+      },
+      {
+        "id": "<urn:uuid:0bf54ad7-eefa-43c5-b470-208cd3228518>",
+        "tokens": 1607
+      },
+      {
+        "id": "<urn:uuid:2d9ffb17-9f67-41c7-9376-4bcc8f133128>",
+        "tokens": 1485
+      },
+      {
+        "id": "<urn:uuid:7398377e-2e93-420b-accd-8dc32de39e34>",
+        "tokens": 1555
+      },
+      {
+        "id": "<urn:uuid:5b96113d-e2ee-4d14-a5ca-eedaa186246c>",
+        "tokens": 209
+      },
+      {
+        "id": "<urn:uuid:60d7a73c-ca93-4cad-8297-83c54e0cec67>",
+        "tokens": 255
+      },
+      {
+        "id": "<urn:uuid:b8308736-c20b-4080-9727-1a550d841e29>",
+        "tokens": 208
+      },
+      {
+        "id": "<urn:uuid:2983507d-5321-491f-a25c-9852b084b1db>",
+        "tokens": 664
+      },
+      {
+        "id": "<urn:uuid:be8b18b7-93cd-4b80-bf1b-987058120c6d>",
+        "tokens": 465
+      },
+      {
+        "id": "<urn:uuid:2bf9f896-1c6f-451d-8f29-8b40801e6d86>",
+        "tokens": 323
+      },
+      {
+        "id": "<urn:uuid:c232d0a5-ef21-4122-ab74-9e2a0e4a458f>",
+        "tokens": 868
+      },
+      {
+        "id": "<urn:uuid:409d3f51-b636-4396-b8fe-4c1033a986d9>",
+        "tokens": 993
+      },
+      {
+        "id": "<urn:uuid:9afa0f1d-e979-4776-8d3e-80ec388246c3>",
+        "tokens": 1104
+      },
+      {
+        "id": "<urn:uuid:6c0abba2-4b9d-41d0-9528-be351908d5cc>",
+        "tokens": 149
+      },
+      {
+        "id": "<urn:uuid:74057a23-ad6b-4234-ba07-ec9dd1d756e1>",
+        "tokens": 329
+      },
+      {
+        "id": "<urn:uuid:d2a34f99-94df-4712-b664-87579b04f7c0>",
+        "tokens": 1848
+      },
+      {
+        "id": "<urn:uuid:9f6c7a85-3971-45f0-96a8-5f46dfcbd874>",
+        "tokens": 252
+      },
+      {
+        "id": "<urn:uuid:fd7ffef0-bcf8-400b-927c-74d32078c70f>",
+        "tokens": 96
+      },
+      {
+        "id": "<urn:uuid:cfaef8b4-b360-4826-a20c-309db1c8d663>",
+        "tokens": 171
+      },
+      {
+        "id": "<urn:uuid:28b2b42f-9d57-45db-90cf-ae749f18a092>",
+        "tokens": 525
+      },
+      {
+        "id": "<urn:uuid:6d3931ad-7928-4a6c-a6bf-f18017389e97>",
+        "tokens": 197
+      },
+      {
+        "id": "<urn:uuid:e24848fe-ba0a-4060-87f7-0637a713390a>",
+        "tokens": 194
+      },
+      {
+        "id": "<urn:uuid:369e4d18-b3c4-48bf-868b-b5a5c5461466>",
+        "tokens": 205
+      },
+      {
+        "id": "<urn:uuid:5bf774db-270b-4003-b171-81772d3a6181>",
+        "tokens": 502
+      },
+      {
+        "id": "<urn:uuid:6bb4db69-7f9a-446b-9173-c6cb4df01608>",
+        "tokens": 250
+      },
+      {
+        "id": "<urn:uuid:fab04aeb-8953-49b4-a112-914f14840902>",
+        "tokens": 331
+      },
+      {
+        "id": "<urn:uuid:ee751303-defb-433b-9147-d3f6333e6d61>",
+        "tokens": 127
+      },
+      {
+        "id": "<urn:uuid:865426ff-5238-44be-adcf-80cfa52ad62d>",
+        "tokens": 1220
+      },
+      {
+        "id": "<urn:uuid:99aaecd0-565b-4439-8320-492068512ac9>",
+        "tokens": 446
+      },
+      {
+        "id": "<urn:uuid:139e3915-872f-452b-9747-8894d32a099e>",
+        "tokens": 546
+      },
+      {
+        "id": "<urn:uuid:8836d1a1-4c2f-45b3-93a2-c897b66092a0>",
+        "tokens": 265
+      },
+      {
+        "id": "<urn:uuid:f15bf86b-ff0b-4d79-ae2d-bde8e69ef447>",
+        "tokens": 726
+      },
+      {
+        "id": "<urn:uuid:0dd67e8e-0c51-4327-a047-c968093f17cf>",
+        "tokens": 154
+      },
+      {
+        "id": "<urn:uuid:98577b84-6f20-4113-9429-b7252a861a00>",
+        "tokens": 211
+      },
+      {
+        "id": "<urn:uuid:ebbb968f-5dc0-4fcf-a1d0-6a2e7be1ede4>",
+        "tokens": 213
+      },
+      {
+        "id": "<urn:uuid:85737c72-bdae-484e-8cca-54ee7b3e5428>",
+        "tokens": 1678
+      },
+      {
+        "id": "<urn:uuid:425c2146-c74f-40fb-8622-6ac6b56eb150>",
+        "tokens": 1401
+      },
+      {
+        "id": "<urn:uuid:4715769a-a2e9-4823-b6e8-cc6f02184a6e>",
+        "tokens": 1996
+      },
+      {
+        "id": "<urn:uuid:2afcde77-a4fb-42a8-a109-e30e120511ef>",
+        "tokens": 1165
+      },
+      {
+        "id": "<urn:uuid:790525da-9690-4458-8b87-2a355fc2c374>",
+        "tokens": 361
+      },
+      {
+        "id": "<urn:uuid:02decf38-4488-422c-9212-41445bec7249>",
+        "tokens": 389
+      },
+      {
+        "id": "<urn:uuid:7f223002-f00f-4634-8dfc-c2adfeee2343>",
+        "tokens": 218
+      },
+      {
+        "id": "<urn:uuid:72c5855f-b501-47fc-b718-54ff447548c1>",
+        "tokens": 152
+      },
+      {
+        "id": "<urn:uuid:0b9e1406-3d35-4dc0-a675-6815e17737c5>",
+        "tokens": 225
+      },
+      {
+        "id": "<urn:uuid:ec8c7e9a-9fe0-47dc-84df-dfaf98497212>",
+        "tokens": 472
+      },
+      {
+        "id": "<urn:uuid:10c03af2-2d47-431c-8a09-bf9a7ec351e3>",
+        "tokens": 132
+      },
+      {
+        "id": "<urn:uuid:23d77623-e22f-4231-b284-2a3b6e26980a>",
+        "tokens": 605
+      },
+      {
+        "id": "<urn:uuid:00394a71-975c-4465-9cfe-a94cc6b162b9>",
+        "tokens": 157
+      }
+    ],
+    "per_doc_max_chars": 3000,
+    "min_chars": 200,
+    "decontam": {
+      "shingle_chars": 30,
+      "files": [
+        "ppl_ja.txt",
+        "jcommonsenseqa.jsonl",
+        "jsquad.jsonl",
+        "mgsm.jsonl"
+      ]
+    }
+  },
+  "tokenizer": {
+    "name": "Qwen3_5Tokenizer",
+    "dir": "Qwen3.5-9B",
+    "vocab_size": 248077,
+    "fingerprint": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+    "transformers": "5.21.0"
+  },
+  "add_special_tokens": false,
+  "doc_separator": null,
+  "packed_sha256": "6f5ba7a9671563c07d01f1c93fa806baf32a767476f2d85071ed7451b11d0c2a",
+  "samples_sha256": "cc3f70501724a25ae095830a8c3d8210d9c516ead01537540d012b38c76e5106"
+}
