@@ -2,7 +2,8 @@
 """B2/B3: llm-compressor oneshot による W4A16 量子化（--method gptq|awq）。llm-compressor の venv で実行する。
 
 quantize_fp8.py と同じ流儀: 対象は言語モデルの Linear のみ。lm_head と Vision 系は ignore（BF16 のまま）。
-キャリブレーションは data_main/imatrix_calib.txt から固定 seed で 512 サンプルを抽出し、B2/B3 で同一にする。
+キャリブレーションは 2 経路。B2/B3 の本測定は --calib-packed（build_calibration.py が作る 256 x 1024 のハイブリッド・パック済み
+トークン ID 列。B2/B3 で完全同一）。--calib-text は後方互換の行ベース経路（imatrix_calib.txt から seed 固定で 512 行）。
 出力ディレクトリに quant_meta.json（量子化パラメータ・キャリブレーション条件・バージョン）を残す。
 
 純 Python の部分（IGNORE / build_calibration_samples / recipe_spec）は torch 無しで import・テストできる。
@@ -16,7 +17,11 @@ import json
 import os
 import random
 import time
+import sys
 from importlib import metadata
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import calib_pack  # noqa: E402
 
 IGNORE = ["lm_head", "re:.*visual.*", "re:.*vision.*"]  # quantize_fp8.py と同一
 SCHEME = "W4A16"
@@ -60,6 +65,37 @@ def samples_digest(samples: list[str]) -> str:
     return h.hexdigest()
 
 
+def load_packed_calibration(path: str) -> tuple[list[list[int]], int, str, str]:
+    """パック済みファイルを読み (samples, seq_len, file_sha256, samples_sha256) を返す。形状を検証する。"""
+    with open(path, "rb") as f:
+        raw = f.read()
+    d = json.loads(raw)
+    if d.get("format") != calib_pack.FORMAT:
+        raise SystemExit(f"パック済みキャリブレーションの format が不正: {d.get('format')}")
+    samples, seq_len = d["samples"], d["seq_len"]
+    if len(samples) != d["num_samples"] or any(len(s) != seq_len for s in samples):
+        raise SystemExit("パック済みキャリブレーションの形状が不正（全サンプルが seq_len ちょうどであること）")
+    return samples, seq_len, hashlib.sha256(raw).hexdigest(), calib_pack.samples_digest_ids(samples)
+
+
+def packed_calibration_meta(path: str, samples: list[list[int]], seq_len: int, file_sha: str, digest: str,
+                            build_meta: dict | None) -> dict:
+    """quant_meta.json の calibration 欄（hybrid-pack）。build_meta はパック時の .meta.json（無ければ None）。"""
+    cal = {"method": "hybrid-pack", "source_file": os.path.basename(path), "num_samples": len(samples),
+           "seq_len": seq_len, "max_seq_len": seq_len, "total_tokens": len(samples) * seq_len,
+           "packed_sha256": file_sha, "samples_sha256": digest}
+    if build_meta:
+        cal.update({"seed": build_meta.get("seed"),
+                    "existing_tokens": build_meta["existing"]["tokens_used"],
+                    "supplement_tokens": build_meta["supplement"]["tokens_used"],
+                    "existing_source": build_meta["existing"]["file"],
+                    "existing_sha256": build_meta["existing"]["sha256"],
+                    "supplement_source": {k: build_meta["supplement"].get(k) for k in ("dataset", "config", "revision", "data_file")},
+                    "supplement_docs": build_meta["supplement"]["docs_consumed"],
+                    "tokenizer": build_meta.get("tokenizer")})
+    return cal
+
+
 def recipe_spec(method: str, mappings: list | None = None) -> dict:
     """モディファイアの種類と引数を dict で返す（テスト・meta 記録用。llm-compressor 不要）。"""
     if method not in CONDITIONS:
@@ -78,10 +114,13 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--method", required=True, choices=sorted(CONDITIONS))
     ap.add_argument("--model", required=True, help="HF のローカルディレクトリ（BF16）")
     ap.add_argument("--out", required=True)
-    ap.add_argument("--calib-text", default="data_main/imatrix_calib.txt")
+    ap.add_argument("--calib-text", default="data_main/imatrix_calib.txt", help="行ベース経路（後方互換）")
+    ap.add_argument("--calib-packed", default=None,
+                    help="build_calibration.py が作ったパック済み JSON（指定すると --calib-text 経路は使わない）")
     ap.add_argument("--num-samples", type=int, default=NUM_SAMPLES)
     ap.add_argument("--seed", type=int, default=SEED)
-    ap.add_argument("--max-seq-len", type=int, default=MAX_SEQ_LEN)
+    ap.add_argument("--max-seq-len", type=int, default=None,
+                    help=f"行ベース経路の上限（既定 {MAX_SEQ_LEN}）。パック経路では seq_len に固定され、小さい値はエラー")
     ap.add_argument("--awq-mappings-json", default=None,
                     help="AWQ の smoothing mappings を JSON で上書き（auto 推定が Qwen3.5 で失敗した場合の逃げ道）")
     ap.add_argument("--model-id", default="Qwen/Qwen3.5-9B")
@@ -92,11 +131,26 @@ def main() -> None:
     args = build_parser().parse_args()
     cond = CONDITIONS[args.method]
 
-    with open(args.calib_text, encoding="utf-8") as f:
-        raw_text = f.read()
-    samples = build_calibration_samples(raw_text, args.num_samples, args.seed)
-    digest = samples_digest(samples)
-    print(f"[{cond}] calibration: {len(samples)} samples, sha256={digest[:16]}…")
+    packed = None
+    if args.calib_packed:
+        ids, seq_len, file_sha, digest = load_packed_calibration(args.calib_packed)
+        if args.max_seq_len is not None and args.max_seq_len < seq_len:
+            raise SystemExit(f"--max-seq-len {args.max_seq_len} < パック済みの seq_len {seq_len}")
+        mp = os.path.splitext(args.calib_packed)[0] + ".meta.json"
+        build_meta = json.load(open(mp, encoding="utf-8")) if os.path.exists(mp) else None
+        if build_meta and build_meta.get("samples_sha256") != digest:
+            raise SystemExit("パック済みファイルと .meta.json の samples_sha256 が不一致")
+        packed = packed_calibration_meta(args.calib_packed, ids, seq_len, file_sha, digest, build_meta)
+        max_seq_len, n_samples = seq_len, len(ids)
+        print(f"[{cond}] calibration (hybrid-pack): {n_samples} x {seq_len}, samples_sha256={digest[:16]}…")
+    else:
+        max_seq_len = args.max_seq_len or MAX_SEQ_LEN
+        with open(args.calib_text, encoding="utf-8") as f:
+            raw_text = f.read()
+        samples = build_calibration_samples(raw_text, args.num_samples, args.seed)
+        digest = samples_digest(samples)
+        n_samples = len(samples)
+        print(f"[{cond}] calibration: {n_samples} samples, sha256={digest[:16]}…")
 
     mappings = None
     if args.awq_mappings_json:
@@ -117,9 +171,12 @@ def main() -> None:
         model = Auto.from_pretrained(args.model, torch_dtype=torch.bfloat16, device_map="auto")
 
     tok = AutoTokenizer.from_pretrained(args.model)
-    ds = Dataset.from_dict({"text": samples}).map(
-        lambda ex: tok(ex["text"], max_length=args.max_seq_len, truncation=True, add_special_tokens=False),
-        remove_columns=["text"])
+    if packed is not None:  # トークナイズ済み。0.15.0 は input_ids 列があれば再処理せずそのまま使う
+        ds = Dataset.from_dict({"input_ids": ids, "attention_mask": [[1] * seq_len for _ in ids]})
+    else:
+        ds = Dataset.from_dict({"text": samples}).map(
+            lambda ex: tok(ex["text"], max_length=max_seq_len, truncation=True, add_special_tokens=False),
+            remove_columns=["text"])
 
     spec = recipe_spec(args.method, mappings)
     if args.method == "gptq":
@@ -132,8 +189,8 @@ def main() -> None:
         recipe = AWQModifier(targets=[spec["targets"]], scheme=spec["scheme"], ignore=spec["ignore"], **kw)
 
     t0 = time.time()
-    oneshot(model=model, dataset=ds, recipe=recipe, max_seq_length=args.max_seq_len,
-            num_calibration_samples=len(samples))
+    oneshot(model=model, dataset=ds, recipe=recipe, max_seq_length=max_seq_len,
+            num_calibration_samples=n_samples)
     elapsed = time.time() - t0
 
     quantized = [n for n, m in model.named_modules() if getattr(m, "quantization_scheme", None) is not None]
@@ -159,9 +216,10 @@ def main() -> None:
     meta = {
         "condition": cond, "method": f"llm-compressor oneshot ({args.method.upper()})", "scheme": SCHEME,
         "targets": TARGETS, "ignore": IGNORE, "recipe": spec,
-        "calibration": {"source_text": os.path.basename(args.calib_text), "num_samples": len(samples),
-                        "seed": args.seed, "split": "non-empty lines, len>=%d chars, dedup, random.sample" % MIN_CHARS,
-                        "max_seq_len": args.max_seq_len, "samples_sha256": digest},
+        "calibration": packed if packed is not None else {
+            "source_text": os.path.basename(args.calib_text), "num_samples": n_samples,
+            "seed": args.seed, "split": "non-empty lines, len>=%d chars, dedup, random.sample" % MIN_CHARS,
+            "max_seq_len": max_seq_len, "samples_sha256": digest},
         "source_model": args.model_id, "quantized_linear_layers": len(quantized), "seconds": round(elapsed, 1),
         "versions": {p: ver(p) for p in ("llmcompressor", "compressed-tensors", "transformers", "torch")},
     }
