@@ -1,0 +1,26 @@
+0.33 minutes
+[1]8.1450,[2]8.5376,[3]9.2484,[4]9.2765,[5]9.5066,[6]9.6589,[7]9.3828,[8]9.1942,[9]8.9967,[10]8.9303,[11]9.0346,[12]9.1455,[13]9.2153,[14]9.3095,
+
+
+0.01.000.150 W model has unused tensor blk.32.attn_norm.weight (size = 16384 bytes) -- ignoring
+0.01.000.165 W model has unused tensor blk.32.post_attention_norm.weight (size = 16384 bytes) -- ignoring
+0.01.000.178 W model has unused tensor blk.32.attn_q.weight (size = 14417920 bytes) -- ignoring
+0.01.000.183 W model has unused tensor blk.32.attn_k.weight (size = 1802240 bytes) -- ignoring
+0.01.000.187 W model has unused tensor blk.32.attn_v.weight (size = 2359296 bytes) -- ignoring
+0.01.000.203 W model has unused tensor blk.32.attn_output.weight (size = 9437184 bytes) -- ignoring
+0.01.000.208 W model has unused tensor blk.32.attn_q_norm.weight (size = 1024 bytes) -- ignoring
+0.01.000.213 W model has unused tensor blk.32.attn_k_norm.weight (size = 1024 bytes) -- ignoring
+0.01.000.218 W model has unused tensor blk.32.ffn_gate.weight (size = 21626880 bytes) -- ignoring
+0.01.000.222 W model has unused tensor blk.32.ffn_down.weight (size = 28311552 bytes) -- ignoring
+0.01.000.228 W model has unused tensor blk.32.ffn_up.weight (size = 21626880 bytes) -- ignoring
+0.01.000.234 W model has unused tensor blk.32.nextn.eh_proj.weight (size = 14417920 bytes) -- ignoring
+0.01.000.240 W model has unused tensor blk.32.nextn.enorm.weight (size = 16384 bytes) -- ignoring
+0.01.000.245 W model has unused tensor blk.32.nextn.hnorm.weight (size = 16384 bytes) -- ignoring
+0.01.000.258 W model has unused tensor blk.32.nextn.shared_head_norm.weight (size = 16384 bytes) -- ignoring
+0.02.290.462 I cmn          init: llama threadpool init, n_threads = 6
+0.02.376.929 I 
+0.02.377.090 I system_info: n_threads = 6 (n_threads_batch = 6) / 12 | CUDA : ARCHS = 890 | USE_GRAPHS = 1 | FA_QUANTS = q4_0-q4_0,q8_0-q8_0,f16-f16,bf16-bf16 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | AVX512 = 1 | AVX512_VNNI = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.02.377.122 I perplexity: tokenizing the input ..
+0.02.481.034 I perplexity: tokenization took 103.901 ms
+0.02.481.070 I perplexity: calculating perplexity over 14 chunks, n_ctx=2048, batch_size=2048, n_seq=1
+0.03.979.183 I perplexity: 1.50 seconds per pass - ETA 0.18.823.018 I Final estimate: PPL = 9.3095 +/- 0.20121
