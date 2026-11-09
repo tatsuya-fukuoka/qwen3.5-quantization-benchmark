@@ -109,6 +109,18 @@ def recipe_spec(method: str, mappings: list | None = None) -> dict:
     return spec
 
 
+def oneshot_kwargs(model, ds, recipe, tok, max_seq_len: int, n_samples: int) -> dict:
+    """oneshot に渡す引数。processor に読み込み済みの tokenizer を明示的に渡す。
+
+    llm-compressor 0.15.0 の pre_process は processor が str/None のときだけ AutoProcessor.from_pretrained を呼び、
+    dataset 指定ありで失敗すると RuntimeError にする（torchvision 無しの Colab で Qwen3VLVideoProcessor が ImportError）。
+    インスタンスを渡せばこの自動初期化は走らない。テキストのみ・トークナイズ済みの dataset では collator も
+    getattr(processor, "tokenizer", processor) としか使わないので tokenizer で足りる。レシピ・データは変えない。
+    """
+    return {"model": model, "dataset": ds, "recipe": recipe, "processor": tok,
+            "max_seq_length": max_seq_len, "num_calibration_samples": n_samples}
+
+
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--method", required=True, choices=sorted(CONDITIONS))
@@ -189,8 +201,7 @@ def main() -> None:
         recipe = AWQModifier(targets=[spec["targets"]], scheme=spec["scheme"], ignore=spec["ignore"], **kw)
 
     t0 = time.time()
-    oneshot(model=model, dataset=ds, recipe=recipe, max_seq_length=max_seq_len,
-            num_calibration_samples=n_samples)
+    oneshot(**oneshot_kwargs(model, ds, recipe, tok, max_seq_len, n_samples))
     elapsed = time.time() - t0
 
     quantized = [n for n, m in model.named_modules() if getattr(m, "quantization_scheme", None) is not None]

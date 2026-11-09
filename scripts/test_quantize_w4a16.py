@@ -88,6 +88,44 @@ class TestRecipeAndCli(unittest.TestCase):
             self.assertIn(key, src)
 
 
+class TestOneshotProcessor(unittest.TestCase):
+    """B2 失敗（AutoProcessor 自動初期化 → torchvision 不足）の回帰: tokenizer を processor として明示的に渡す。"""
+
+    def test_kwargs_pass_tokenizer_as_processor(self):
+        tok, model, ds, recipe = object(), object(), object(), object()
+        kw = q.oneshot_kwargs(model, ds, recipe, tok, 1024, 256)
+        self.assertIs(kw["processor"], tok)
+        self.assertEqual((kw["model"], kw["dataset"], kw["recipe"]), (model, ds, recipe))
+        self.assertEqual((kw["max_seq_length"], kw["num_calibration_samples"]), (1024, 256))
+        self.assertEqual(set(kw), {"model", "dataset", "recipe", "processor", "max_seq_length",
+                                   "num_calibration_samples"})
+
+    def test_main_calls_oneshot_with_processor(self):
+        import types
+        from unittest import mock
+        tok, model = mock.MagicMock(), mock.MagicMock()
+        model.named_modules.return_value = [("model.layers.0.mlp", types.SimpleNamespace(quantization_scheme=1))]
+        calls = {}
+        mods = {
+            "torch": mock.MagicMock(bfloat16="bf16"),
+            "datasets": mock.MagicMock(),
+            "llmcompressor": types.SimpleNamespace(oneshot=lambda **kw: calls.update(kw)),
+            "llmcompressor.modifiers": mock.MagicMock(),
+            "llmcompressor.modifiers.quantization": mock.MagicMock(),
+            "transformers": mock.MagicMock(),
+        }
+        mods["transformers"].AutoTokenizer.from_pretrained.return_value = tok
+        mods["transformers"].AutoModelForImageTextToText.from_pretrained.return_value = model
+        with tempfile.TemporaryDirectory() as d:
+            txt = os.path.join(d, "c.txt")
+            open(txt, "w", encoding="utf-8").write(_text(600))
+            argv = ["quantize_w4a16.py", "--method", "gptq", "--model", d, "--out", os.path.join(d, "o"),
+                    "--calib-text", txt]
+            with mock.patch.dict(sys.modules, mods), mock.patch.object(sys, "argv", argv):
+                q.main()
+        self.assertIs(calls["processor"], tok)
+
+
 class TestTrackBOutputs(unittest.TestCase):
     def test_summary_b_does_not_touch_summary(self):
         with tempfile.TemporaryDirectory() as d:
