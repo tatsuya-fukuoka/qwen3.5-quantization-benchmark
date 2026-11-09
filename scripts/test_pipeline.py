@@ -60,6 +60,60 @@ class TestPipeline(unittest.TestCase):
         for p in res["generations"].values():
             self.assertTrue(os.path.exists(p))
 
+    def test_mgsm_count_is_independent(self):
+        rows = {"jcommonsenseqa": [1] * 3, "jsquad": [1] * 3, "mgsm": [1] * 5}
+        prep_data.check_counts(rows, {"jcommonsenseqa": 3, "jsquad": 3, "mgsm": 5})  # 通る
+        with self.assertRaises(SystemExit):
+            prep_data.check_counts(rows, {"jcommonsenseqa": 3, "jsquad": 3, "mgsm": 6})
+        with self.assertRaises(SystemExit):
+            prep_data.check_counts({**rows, "jsquad": [1] * 2}, {"jcommonsenseqa": 3, "jsquad": 3, "mgsm": 5})
+
+    def test_prep_mgsm_count_differs_from_others(self):
+        d = self.d
+        with open(f"{d}/m.tsv", "a", encoding="utf-8") as f:
+            f.write("問題4\t4\n問題5\t5\n")
+        self.assertEqual(len(prep_data.prep_mgsm(f"{d}/m.tsv", 5)), 5)
+        self.assertEqual(len(prep_data.prep_jcommonsenseqa(f"{d}/jc.json", 3)), 3)
+
+    def test_ppl_text_independent_of_eval_n(self):
+        d = self.d
+        # 評価 4 件でも、除外を 2 問分（= n=2 のとき）に固定すれば PPL 用 context は n=2 のときと同一
+        rows2, ppl2 = prep_data.prep_jsquad(f"{d}/sq.json", 2)
+        rows4, ppl4 = prep_data.prep_jsquad(f"{d}/sq.json", 4, ppl_exclude_n=2)
+        self.assertEqual((len(rows2), len(rows4)), (2, 4))
+        self.assertEqual(ppl2, ppl4)
+        self.assertEqual(rows4[:2], rows2)  # 先頭 N 件の関係も保たれる
+        # 既定（指定なし）は従来どおり n と連動
+        self.assertEqual(prep_data.prep_jsquad(f"{d}/sq.json", 4)[1], ["文脈2", "文脈3", "文脈4", "文脈5"])
+
+    def test_eval_n_zero_uses_all_rows(self):
+        d = self.d
+        common.write_jsonl(f"{d}/jcommonsenseqa.jsonl", prep_data.prep_jcommonsenseqa(f"{d}/jc.json", 5))
+        common.write_jsonl(f"{d}/jsquad.jsonl", prep_data.prep_jsquad(f"{d}/sq.json", 4)[0])
+        common.write_jsonl(f"{d}/mgsm.jsonl", prep_data.prep_mgsm(f"{d}/m.tsv", 3))
+
+        def one(msgs, mt):
+            return {"text": "0", "completion_tokens": 1}
+
+        def run(n):
+            return common.run_eval(one, lambda ms, mt: [one(m, mt) for m in ms], d, f"{d}/gen{n}", n,
+                                   os.path.join(HERE, "prompts_qualitative.txt"))["counts"]
+
+        c = run(0)
+        self.assertEqual((c["jcommonsenseqa"], c["jsquad"], c["mgsm"]), (5, 4, 3))
+        self.assertEqual(run(-1)["jcommonsenseqa"], 5)
+        # Phase 0 の「先頭 N 件」セマンティクスは不変
+        c2 = run(2)
+        self.assertEqual((c2["jcommonsenseqa"], c2["jsquad"], c2["mgsm"]), (2, 2, 2))
+        self.assertEqual(run(100)["mgsm"], 3)
+
+    def test_eval_scripts_defaults_and_n_zero_record(self):
+        for name in ("eval_gguf.py", "eval_vllm.py"):
+            with open(os.path.join(HERE, name), encoding="utf-8") as f:
+                src = f.read()
+            self.assertIn('"--n", type=int, default=100', src)  # 既定は Phase 0 のまま
+            self.assertIn('"n_per_task": args.n if args.n > 0 else "all"', src)
+
     def test_messages_are_shared_format(self):
         m = common.build_messages("jcommonsenseqa", {"question": "Q", "choices": list("abcde")})
         self.assertEqual(m[0]["role"], "user")

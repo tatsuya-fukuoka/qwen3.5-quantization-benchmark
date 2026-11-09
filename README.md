@@ -56,11 +56,22 @@ results/
 - PPL: GGUF は `llama-perplexity`（ctx 2048、後半採点）、vLLM は同方式を `prompt_logprobs` で自前実装。細部が異なるため **Track をまたぐ PPL の絶対比較はしない**
 - 再現性: seed=0、llama.cpp ビルド番号・vLLM／llm-compressor バージョン・量子化パラメータは各 `<条件>.json` と `results/env/` に記録される
 
+## Phase 1（本測定 Track A）
+
+`colab/phase1_main_a.ipynb`（依頼: [`docs/phase1-claude-code-handoff.md`](docs/phase1-claude-code-handoff.md)）。GGUF 9 条件を
+JCSQA 200 / JSQuAD 200 / MGSM 全 250 件で測る。「すべてのセルを実行」で完走し、`results_main/<条件>.json` がある条件は飛ばす（再開可）。
+データは `data_main/`、結果は `results_main/`（Phase 0 の `data/`・`results/` とは分離）。llama-server のポートは 18080。
+最後に `results_main/` を GitHub へ push するため、`GITHUB_TOKEN` は **Contents: Read and write** にしておく（読み取りのみだと push が失敗し zip 退避になる）。
+
+評価スクリプトの `--n 0` は「データファイルの全行」を評価する（既定 100 は Phase 0 のまま）。
+
 ## ローカルでできる確認（GPU 不要）
 
 ```
+python3 -m unittest discover -s scripts -p 'test_*.py'   # 全テスト
 python3 scripts/test_score.py       # 採点コードの単体テスト
 python3 scripts/test_pipeline.py    # データ整形と評価ループの配管テスト（ダミー生成器）
+python3 scripts/test_make_gguf.py   # make_gguf.sh の冪等性テスト（スタブ）
 ```
 
 ## ディレクトリ

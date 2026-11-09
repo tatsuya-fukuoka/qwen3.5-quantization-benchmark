@@ -9,7 +9,8 @@
   imatrix_calib.txt     imatrix 用（--with-imatrix 指定時のみ。HF から取得）
 
 各タスクは「ファイル中の出現順の先頭 N 件」（乱択しない＝再現性）。
-ppl_ja.txt は JSQuAD valid の Wikipedia 由来 context のうち、評価に使う先頭 N 件の質問が
+MGSM だけ --n-mgsm で件数を分けられる（既定は --n と同じ。本測定は --n 200 --n-mgsm 250 = 全250件）。
+ppl_ja.txt は JSQuAD valid の Wikipedia 由来 context のうち、先頭 --ppl-exclude-n（既定 N）件の質問が
 参照しない context を出現順に連結し、--ppl-chars 文字で切ったもの。
 """
 from __future__ import annotations
@@ -75,13 +76,19 @@ def _jsquad_flat(raw: str):
             ci += 1
 
 
-def prep_jsquad(raw: str, n: int) -> tuple[list[dict], list[str]]:
-    """評価用 N 件と、PPL 用に使える（評価で未使用の）context のリスト。"""
+def prep_jsquad(raw: str, n: int, ppl_exclude_n: int | None = None) -> tuple[list[dict], list[str]]:
+    """評価用 N 件と、PPL 用に使える context のリスト。
+
+    PPL 用からは先頭 ppl_exclude_n 問（既定 n）が参照する context を除く。
+    n を増やしても PPL テキストを固定したいとき（Phase 1: n=200 でも Phase 0 と同じ 100）に分けて指定する。
+    """
+    ex_n = n if ppl_exclude_n is None else ppl_exclude_n
     rows, used_ctx, all_ctx = [], set(), {}
-    for ci, ctx, qa in _jsquad_flat(raw):
+    for k, (ci, ctx, qa) in enumerate(_jsquad_flat(raw)):
         all_ctx.setdefault(ci, ctx)
-        if len(rows) < n:
+        if k < ex_n:
             used_ctx.add(ci)
+        if len(rows) < n:
             answers = []
             for a in qa["answers"]:
                 if a["text"] not in answers:
@@ -108,10 +115,21 @@ def build_ppl_text(contexts: list[str], max_chars: int) -> str:
     return text[:max_chars]
 
 
+def check_counts(rows_by_task: dict, expected: dict) -> None:
+    """タスク別の要求件数に満たなければ SystemExit。"""
+    for name, rows in rows_by_task.items():
+        if len(rows) < expected[name]:
+            raise SystemExit(f"{name}: {len(rows)} 件しか取れていない（要求 {expected[name]}）")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
     ap.add_argument("--outdir", default="data")
     ap.add_argument("--n", type=int, default=100, help="各タスクの先頭件数（スモーク=100）")
+    ap.add_argument("--n-mgsm", type=int, default=None, help="MGSM の先頭件数（既定: --n と同じ）")
+    ap.add_argument("--ppl-exclude-n", type=int, default=None,
+                    help="PPL 用テキストから除外する JSQuAD 先頭問数（既定: --n）。"
+                         "本測定は Phase 0 と同じ PPL テキストにするため 100 を指定")
     ap.add_argument("--ppl-chars", type=int, default=50000)
     ap.add_argument("--with-imatrix", action="store_true", help="imatrix 用テキストも HF から取得する")
     args = ap.parse_args()
@@ -124,9 +142,10 @@ def main() -> None:
         "mgsm": fetch(URLS["mgsm"], os.path.join(raw_dir, "mgsm_ja.tsv")),
     }
 
+    n_mgsm = args.n if args.n_mgsm is None else args.n_mgsm
     jc = prep_jcommonsenseqa(raws["jcommonsenseqa"], args.n)
-    js, ppl_ctx = prep_jsquad(raws["jsquad"], args.n)
-    mg = prep_mgsm(raws["mgsm"], args.n)
+    js, ppl_ctx = prep_jsquad(raws["jsquad"], args.n, args.ppl_exclude_n)
+    mg = prep_mgsm(raws["mgsm"], n_mgsm)
     write_jsonl(os.path.join(args.outdir, "jcommonsenseqa.jsonl"), jc)
     write_jsonl(os.path.join(args.outdir, "jsquad.jsonl"), js)
     write_jsonl(os.path.join(args.outdir, "mgsm.jsonl"), mg)
@@ -134,9 +153,8 @@ def main() -> None:
     with open(os.path.join(args.outdir, "ppl_ja.txt"), "w", encoding="utf-8") as f:
         f.write(ppl)
     print(f"jcommonsenseqa={len(jc)} jsquad={len(js)} mgsm={len(mg)} ppl_chars={len(ppl)}")
-    for name, rows in (("jcommonsenseqa", jc), ("jsquad", js), ("mgsm", mg)):
-        if len(rows) < args.n:
-            raise SystemExit(f"{name}: {len(rows)} 件しか取れていない（要求 {args.n}）")
+    check_counts({"jcommonsenseqa": jc, "jsquad": js, "mgsm": mg},
+                 {"jcommonsenseqa": args.n, "jsquad": args.n, "mgsm": n_mgsm})
 
     if args.with_imatrix:
         from huggingface_hub import hf_hub_download

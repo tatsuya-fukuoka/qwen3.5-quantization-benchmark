@@ -89,7 +89,8 @@ def main() -> None:
     ap.add_argument("--llama-dir", default="llama.cpp")
     ap.add_argument("--data-dir", default="data")
     ap.add_argument("--results-dir", default="results")
-    ap.add_argument("--n", type=int, default=100)
+    ap.add_argument("--n", type=int, default=100,
+                    help="各タスクの先頭件数（既定 100 = Phase 0）。0 以下ならデータファイルの全行を評価")
     ap.add_argument("--port", type=int, default=8080)
     ap.add_argument("--quant", default="", help="記録用の量子化名 (F16 / Q4_K_M ...)")
     ap.add_argument("--imatrix", default="", help="使用した imatrix のパス（記録用）")
@@ -126,7 +127,7 @@ def main() -> None:
                   "imatrix": args.imatrix or None, "imatrix_chunks": args.imatrix_chunks or None,
                   "text_only": True},
         "versions": {"llama.cpp": llama_version(args.llama_dir), "python": sys.version.split()[0]},
-        "settings": {"n_per_task": args.n, "ctx": common.CTX, "temperature": 0, "seed": common.SEED,
+        "settings": {"n_per_task": args.n if args.n > 0 else "all", "ctx": common.CTX, "temperature": 0, "seed": common.SEED,
                      "thinking": "off (chat_template_kwargs enable_thinking=false)",
                      "max_tokens": common.MAX_TOKENS, "ppl_ctx": common.PPL_CTX,
                      "vram_note": "評価中の GPU 使用メモリ総量のピーク (nvidia-smi)"},

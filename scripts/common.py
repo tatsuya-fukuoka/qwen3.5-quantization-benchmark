@@ -132,18 +132,25 @@ def path_size_gb(path: str) -> float:
 
 
 # ---------------------------------------------------------------- 評価ループ（共通）
+def select_items(rows: list[dict], n: int) -> list[dict]:
+    return rows[:n] if n > 0 else rows
+
+
 GenOne = Callable[[list[dict], int], dict]  # (messages, max_tokens) -> {"text", "completion_tokens"}
 GenBatch = Callable[[list[list[dict]], int], list[dict]]
 
 
 def run_eval(gen_one: GenOne, gen_batch: GenBatch, data_dir: str, gen_dir: str, n: int,
              qualitative_path: str) -> dict:
-    """3 タスクの採点と定性評価・速度計測を行い、metrics と生成物パスを返す。"""
+    """3 タスクの採点と定性評価・速度計測を行い、metrics と生成物パスを返す。
+
+    n > 0: 各データファイルの先頭 n 件（Phase 0 の挙動）。n <= 0: データファイルの全行。
+    """
     metrics: dict = {}
     counts: dict = {}
     gen_paths: dict = {}
     for task in TASKS:
-        items = read_jsonl(os.path.join(data_dir, f"{task}.jsonl"))[:n]
+        items = select_items(read_jsonl(os.path.join(data_dir, f"{task}.jsonl")), n)
         t0 = time.time()
         outs = gen_batch([build_messages(task, it) for it in items], MAX_TOKENS[task])
         elapsed = time.time() - t0

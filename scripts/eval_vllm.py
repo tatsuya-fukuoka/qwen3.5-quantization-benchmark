@@ -44,7 +44,8 @@ def main() -> None:
     ap.add_argument("--model", required=True, help="量子化済みモデルのディレクトリ")
     ap.add_argument("--data-dir", default="data")
     ap.add_argument("--results-dir", default="results")
-    ap.add_argument("--n", type=int, default=100)
+    ap.add_argument("--n", type=int, default=100,
+                    help="各タスクの先頭件数（既定 100 = Phase 0）。0 以下ならデータファイルの全行を評価")
     ap.add_argument("--gpu-mem-util", type=float, default=0.85)
     ap.add_argument("--model-id", default="Qwen/Qwen3.5-9B")
     ap.add_argument("--qualitative", default=os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -92,7 +93,7 @@ def main() -> None:
                   "quantization": quant_meta},
         "versions": {"vllm": vllm.__version__, "python": sys.version.split()[0],
                      "llmcompressor": (quant_meta or {}).get("versions", {}).get("llmcompressor")},
-        "settings": {"n_per_task": args.n, "ctx": common.CTX, "temperature": 0, "seed": common.SEED,
+        "settings": {"n_per_task": args.n if args.n > 0 else "all", "ctx": common.CTX, "temperature": 0, "seed": common.SEED,
                      "thinking": "off (chat_template_kwargs enable_thinking=false)",
                      "max_tokens": common.MAX_TOKENS, "ppl_ctx": common.PPL_CTX,
                      "gpu_memory_utilization": args.gpu_mem_util,
