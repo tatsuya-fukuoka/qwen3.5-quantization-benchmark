@@ -24,6 +24,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import calib_pack as cp  # noqa: E402
 
 FINEWEB_REPO = "HuggingFaceFW/fineweb-2"
+FINEWEB_CONFIG = "jpn_Jpan"   # fineweb-2 は言語別 config を持つ。未指定だと datasets が "default" を探して失敗する
 FINEWEB_SHARD = "data/jpn_Jpan/train/000_00000.parquet"   # 1 シャードに固定（約 4.8GB。streaming で先頭のみ読む）
 SHUFFLE_BUFFER = 1000
 
@@ -68,14 +69,19 @@ def iter_jsonl(path: str):
                 yield json.loads(ln)
 
 
+def fineweb2_load_kwargs(rev: str) -> dict:
+    """load_dataset(FINEWEB_REPO, **kwargs) の引数（テストで固定するため分離）。"""
+    return {"name": FINEWEB_CONFIG, "data_files": FINEWEB_SHARD, "split": "train", "streaming": True, "revision": rev}
+
+
 def iter_fineweb2(seed: int, revision: str | None):
     from datasets import load_dataset
     from huggingface_hub import HfApi
     rev = revision or HfApi().dataset_info(FINEWEB_REPO).sha
-    ds = load_dataset(FINEWEB_REPO, data_files=FINEWEB_SHARD, split="train", streaming=True, revision=rev)
+    ds = load_dataset(FINEWEB_REPO, **fineweb2_load_kwargs(rev))
     ds = ds.shuffle(seed=seed, buffer_size=SHUFFLE_BUFFER)
     return ({"id": r["id"], "text": r["text"]} for r in ds), {
-        "dataset": FINEWEB_REPO, "config": "jpn_Jpan", "split": "train", "data_file": FINEWEB_SHARD,
+        "dataset": FINEWEB_REPO, "config": FINEWEB_CONFIG, "split": "train", "data_file": FINEWEB_SHARD,
         "revision": rev, "streaming": True, "shuffle_seed": seed, "shuffle_buffer": SHUFFLE_BUFFER, "license": "ODC-By 1.0"}
 
 

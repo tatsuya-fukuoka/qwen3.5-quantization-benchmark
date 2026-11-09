@@ -148,6 +148,34 @@ class TestBuildScript(unittest.TestCase):
         self.assertEqual(a.calib_packed, "p.json")
 
 
+class TestFineweb2Args(unittest.TestCase):
+    """load_dataset へ渡す引数の固定（datasets 未導入でも通る。config 未指定で Colab 実機が失敗した回帰）。"""
+
+    def test_load_kwargs(self):
+        kw = bc.fineweb2_load_kwargs("REV")
+        self.assertEqual(kw, {"name": "jpn_Jpan", "data_files": "data/jpn_Jpan/train/000_00000.parquet",
+                              "split": "train", "streaming": True, "revision": "REV"})
+
+    def test_iter_fineweb2_calls_load_dataset(self):
+        from unittest import mock
+        rows = [{"id": "a", "text": "t1", "url": "u"}, {"id": "b", "text": "t2", "url": "u"}]
+        ds = mock.MagicMock()
+        ds.shuffle.return_value = rows
+        fake_datasets = mock.MagicMock()
+        fake_datasets.load_dataset.return_value = ds
+        fake_hub = mock.MagicMock()
+        with mock.patch.dict(sys.modules, {"datasets": fake_datasets, "huggingface_hub": fake_hub}):
+            stream, src = bc.iter_fineweb2(7, "REV")
+            out = list(stream)
+        fake_datasets.load_dataset.assert_called_once_with(
+            "HuggingFaceFW/fineweb-2", name="jpn_Jpan", data_files="data/jpn_Jpan/train/000_00000.parquet",
+            split="train", streaming=True, revision="REV")
+        fake_hub.HfApi.assert_not_called()   # revision 指定時は API 解決しない
+        ds.shuffle.assert_called_once_with(seed=7, buffer_size=bc.SHUFFLE_BUFFER)
+        self.assertEqual(out, [{"id": "a", "text": "t1"}, {"id": "b", "text": "t2"}])
+        self.assertEqual((src["config"], src["revision"], src["shuffle_seed"]), ("jpn_Jpan", "REV", 7))
+
+
 class TestGitignore(unittest.TestCase):
     def test_packed_calibration_is_tracked_but_data_main_is_not(self):
         root = os.path.dirname(HERE)

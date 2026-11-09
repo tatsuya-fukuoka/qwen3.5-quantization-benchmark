@@ -23,7 +23,7 @@
 
 ### Colab での取得方法とダウンロード量
 
-- `load_dataset("HuggingFaceFW/fineweb-2", data_files="data/jpn_Jpan/train/000_00000.parquet", split="train", streaming=True, revision=<解決した sha>)` → `.shuffle(seed=0, buffer_size=1000)`。
+- `load_dataset("HuggingFaceFW/fineweb-2", name="jpn_Jpan", data_files="data/jpn_Jpan/train/000_00000.parquet", split="train", streaming=True, revision=<解決した sha>)` → `.shuffle(seed=0, buffer_size=1000)`。**`name="jpn_Jpan"`（config 名）が必須**: 省略すると `ValueError: BuilderConfig 'default' not found` で失敗する（Colab 実機で発生、datasets 5.1.0 の VM で再現・修正確認済み）。
 - 1 シャード（約 4.8GB の parquet）を指定するのは、全シャードを対象にするとシャードの並びのシャッフルで取得先が散らばるのを避けるため。streaming なので必要分のみ読む。
 - 必要トークン量（§3）は約 23.4 万トークン ≒ 数百 KB のテキスト。バッファ 1000 文書を満たすため、実際のダウンロードは「バッファ充填分＋parquet の行グループ単位」になる。**実ダウンロード量は未測定**（数十 MB 程度を見込むが、これは推定であり確認していない）。
 - revision は `HfApi().dataset_info(...).sha` で解決して記録する（本日の確認値は `af9c1333…`）。再構築時は `--hf-revision` で固定できる。
@@ -56,7 +56,7 @@
 
 方式、サンプル数・系列長・総トークン数、seed、pool_margin、プールのチャンク数、破棄した端数トークン数、採用チャンクの添字、既存コーパス（ファイル名・sha256・文書数・トークン数・使用数）、補充（データセット名・config・split・データファイル・**revision**・シャッフル seed／バッファ・ライセンス・取得トークン数・使用数・消費文書数・除外数内訳・**消費文書 ID と各トークン数**・重複検査の対象）、トークナイザ（クラス名・語彙サイズ・transformers 版・`tokenizer.json` の sha256）、`packed_sha256`、`samples_sha256`（各 ID を int32 LE で並べた sha256）。
 
-fineweb-2 の文書 ID は `id` 列（UUID）を記録する。`id` 列の存在はデータセットカードに基づく想定で、**実データで未確認**。
+fineweb-2 の文書 ID は `id` 列（UUID）を記録する。`id` 列は実ストリーミングで存在を確認済み（形式は `<urn:uuid:...>`、他に `text`・`url`・`dump` 等の列）。
 
 ## 5. パック済みファイルの保存方針（再現性の担保）
 
@@ -109,7 +109,7 @@ B2 と B3 の間は完全に同一なので、B2 vs B3 の比較には影響し�
 
 ## 10. 未確認事項
 
-- fineweb-2 の実ストリーミング（`id`・`text` 列の実在、シャード固定時の挙動、実ダウンロード量、`datasets` 版差による同一性）。この VM は `datasets`／`transformers` 未導入で、実データも取得していない。
+- fineweb-2 の実ストリーミング: 2026-11-09 に VM（datasets 5.1.0）で先頭 3 件の取得まで確認済み（`name="jpn_Jpan"`＋`data_files` 併用、`id`・`text` 列あり、shuffle 動作）。**未確認**: 実ダウンロード量、`datasets` 版差（Colab 側の版）による同一列性、補充に要する実消費文書数。
 - 実トークナイザ（Qwen3.5-9B）での実測: 既存コーパスが 93,306 トークン・120 文書になるか（行分割の定義が前回調査と一致するか）、パック済みファイルの実サイズ、補充の消費文書数。ノートブック 5b は既存コーパスが全量使われることを assert する。
 - 既存コーパス（C4 由来）と評価データの重複（この VM に `data_main/` なし）。補充側のみ検査している。
 - 評価データ重複検査は 30 文字 n-gram の完全一致のみ。言い換え・翻訳版は検出しない。
