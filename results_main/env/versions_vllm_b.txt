@@ -1,0 +1,3 @@
+torch==2.14.0
+transformers==5.22.2
+vllm==0.33.0rc1.dev1093+gb389f03ff

@@ -1,0 +1,7 @@
+label	seconds	minutes	exit_code	started
+3a_install_vllm_nightly	40	0.7	0	2026-11-09T11:33:01
+3b_install_llmcompressor	7	0.1	0	2026-11-09T11:33:42
+4_prep_data	2	0.0	0	2026-11-09T11:33:53
+5_download_model	52	0.9	0	2026-11-09T11:33:57
+B0_eval	195	3.2	1	2026-11-09T11:34:49
+B0_eval	450	7.5	0	2026-11-09T11:55:01
