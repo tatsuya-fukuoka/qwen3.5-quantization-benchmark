@@ -2,8 +2,8 @@
 """評価データの取得と整形（スモーク用に先頭 N 件へ絞る）。
 
 出力（--outdir、既定 data/。.gitignore 対象）:
-  jcommonsenseqa.jsonl  {id, question, choices[5], label}      JGLUE 公式 valid-v1.1
-  jsquad.jsonl          {id, context, question, answers[]}      JGLUE 公式 valid-v1.1（SQuAD 形式）
+  jcommonsenseqa.jsonl  {id, question, choices[5], label}      JGLUE 公式 valid-v1.3
+  jsquad.jsonl          {id, context, question, answers[]}      JGLUE 公式 valid-v1.3（SQuAD 形式）
   mgsm.jsonl            {id, question, answer}                  MGSM 公式 mgsm_ja.tsv
   ppl_ja.txt            日本語 perplexity 用の固定テキスト
   imatrix_calib.txt     imatrix 用（--with-imatrix 指定時のみ。HF から取得）
@@ -22,8 +22,8 @@ import urllib.request
 
 JGLUE = "https://raw.githubusercontent.com/yahoojapan/JGLUE/main/datasets"
 URLS = {
-    "jcommonsenseqa": f"{JGLUE}/jcommonsenseqa-v1.1/valid-v1.1.json",
-    "jsquad": f"{JGLUE}/jsquad-v1.1/valid-v1.1.json",
+    "jcommonsenseqa": f"{JGLUE}/jcommonsenseqa-v1.3/valid-v1.3.json",
+    "jsquad": f"{JGLUE}/jsquad-v1.3/valid-v1.3.json",
     "mgsm": "https://raw.githubusercontent.com/google-research/url-nlp/main/mgsm/mgsm_ja.tsv",
 }
 IMATRIX_REPO = "TFMC/imatrix-dataset-for-japanese-llm"
@@ -119,8 +119,8 @@ def main() -> None:
     raw_dir = os.path.join(args.outdir, "raw")
     os.makedirs(raw_dir, exist_ok=True)
     raws = {
-        "jcommonsenseqa": fetch(URLS["jcommonsenseqa"], os.path.join(raw_dir, "jcommonsenseqa_valid-v1.1.json")),
-        "jsquad": fetch(URLS["jsquad"], os.path.join(raw_dir, "jsquad_valid-v1.1.json")),
+        "jcommonsenseqa": fetch(URLS["jcommonsenseqa"], os.path.join(raw_dir, "jcommonsenseqa_valid-v1.3.json")),
+        "jsquad": fetch(URLS["jsquad"], os.path.join(raw_dir, "jsquad_valid-v1.3.json")),
         "mgsm": fetch(URLS["mgsm"], os.path.join(raw_dir, "mgsm_ja.tsv")),
     }
 
