@@ -1,0 +1,55 @@
+{
+  "condition": "A1",
+  "kind": "GGUF",
+  "started": "2026-11-09T07:33:51",
+  "model": {
+    "id": "Qwen/Qwen3.5-9B",
+    "file": "models/gguf/qwen3.5-9b-Q8_0.gguf",
+    "quant": "Q8_0",
+    "imatrix": null,
+    "imatrix_chunks": null,
+    "text_only": true
+  },
+  "versions": {
+    "llama.cpp": "built with GNU 13.3.0 for Linux x86_64",
+    "python": "3.13.16"
+  },
+  "settings": {
+    "n_per_task": "all",
+    "ctx": 8192,
+    "temperature": 0,
+    "seed": 0,
+    "thinking": "off (chat_template_kwargs enable_thinking=false)",
+    "max_tokens": {
+      "jcommonsenseqa": 16,
+      "jsquad": 64,
+      "mgsm": 768,
+      "qualitative": 512
+    },
+    "ppl_ctx": 2048,
+    "vram_note": "評価中の GPU 使用メモリ総量のピーク (nvidia-smi)"
+  },
+  "gpu": "NVIDIA L4, 23034 MiB",
+  "n": {
+    "jcommonsenseqa": 200,
+    "jsquad": 200,
+    "mgsm": 250,
+    "qualitative": 10
+  },
+  "metrics": {
+    "jcsqa_acc": 0.935,
+    "jsquad_f1": 0.9348,
+    "jsquad_em": 0.855,
+    "mgsm_acc": 0.812,
+    "tok_s": 26.87,
+    "ppl": 8.5448,
+    "vram_gb": 8.51,
+    "file_size_gb": 9.786
+  },
+  "generations": {
+    "jcommonsenseqa": "results_main/A1/gen_jcommonsenseqa.jsonl",
+    "jsquad": "results_main/A1/gen_jsquad.jsonl",
+    "mgsm": "results_main/A1/gen_mgsm.jsonl",
+    "qualitative": "results_main/A1/qualitative.jsonl"
+  }
+}
