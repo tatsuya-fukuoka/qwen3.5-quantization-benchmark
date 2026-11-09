@@ -1,8 +1,8 @@
 # quantization-exp
 
 日本語 LLM の量子化による精度劣化実測（Qwen3.5-9B / GGUF / vLLM）の実験コード。
-設計の正は [`docs/quantization-verification-design.md`](docs/quantization-verification-design.md)（v3 確定）、
-このリポジトリの実装範囲は [`docs/phase0-claude-code-handoff.md`](docs/phase0-claude-code-handoff.md) の **Phase 0（スモーク）**。
+設計の正は [`docs/quantization-verification-design.md`](docs/quantization-verification-design.md)（v3 確定）。
+Phase 0（スモーク）／Phase 1（Track A 本測定）／Phase 2（Track B 本測定）までを含む。
 
 ## 目的
 
@@ -64,6 +64,19 @@ JCSQA 200 / JSQuAD 200 / MGSM 全 250 件で測る。「すべてのセルを実
 最後に `results_main/` を GitHub へ push するため、`GITHUB_TOKEN` は **Contents: Read and write** にしておく（読み取りのみだと push が失敗し zip 退避になる）。
 
 評価スクリプトの `--n 0` は「データファイルの全行」を評価する（既定 100 は Phase 0 のまま）。
+
+## Phase 2（本測定 Track B）
+
+`colab/phase2_main_b.ipynb`。vLLM＋llm-compressor で B0 BF16／B1 FP8 dynamic／B2 GPTQ W4A16／B3 AWQ W4A16 の
+4 条件を、Track A と同一の評価条件（JCSQA 200／JSQuAD 200／MGSM 250）で測る。GPTQ／AWQ の
+キャリブレーションは `calib/hybrid_256x1024.json`（256 件×1024 トークン。生成方法と出典は同梱の
+`.meta.json` に記録）。結果は `results_main/summary_b.tsv`。
+
+## データの出典
+
+- 評価データ: JCommonsenseQA／JSQuAD（JGLUE）、MGSM（google-research/url-nlp の mgsm_ja）
+- Track A の imatrix 生成: TFMC/imatrix-dataset-for-japanese-llm の `c4_en_ja_imatrix.txt`
+- Track B のキャリブレーション補充: HuggingFaceFW/fineweb-2（jpn_Jpan、ODC-By 1.0）。取得条件・除外数などの詳細は `calib/hybrid_256x1024.meta.json`
 
 ## ローカルでできる確認（GPU 不要）
 
