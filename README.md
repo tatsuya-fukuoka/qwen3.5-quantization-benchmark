@@ -18,6 +18,12 @@ Phase 0 は本測定の前にハーネスの形式・採点・所要時間を確
 
 評価: JCommonsenseQA（accuracy）／JSQuAD（F1・EM）／MGSM（数値 exact match）各先頭 100 件、日本語 perplexity、定性 10 プロンプト。
 
+## Colab ノートブックの位置づけ
+
+`colab/` のノートブックは、本実測を Google Colab で実際に実行したときの実行用ノートブック（記録）であり、汎用のサンプルコードではありません。本体のコードは `scripts/` で、ノートブックは Colab 上での環境構築・実行・結果の GitHub 保存を担っています。
+
+clone／push 先（`REPO`）は元の private リポジトリ（`tatsuya-fukuoka/quantization-exp`）を指したままにしてあります。そのままでは他の環境で動きません。再実行する場合は、`REPO` を自分のリポジトリに書き換え、`GITHUB_TOKEN` シークレットも自分のものを用意してください。
+
 ## Colab での実行手順
 
 1. **GitHub 認証（private リポジトリのため）**
