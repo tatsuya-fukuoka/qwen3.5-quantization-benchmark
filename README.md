@@ -101,3 +101,11 @@ python3 scripts/test_make_gguf.py   # make_gguf.sh の冪等性テスト（ス�
 | `scripts/score.py` / `test_score.py` | 採点と単体テスト |
 | `scripts/prompts_qualitative.txt` | 定性評価の固定 10 プロンプト |
 | `scripts/run_timed.py` / `make_summary.py` | 所要時間の記録／summary.tsv の生成 |
+
+## ライセンス
+
+コード（スクリプト、ノートブック）は MIT License（`LICENSE` ファイル）です。
+ただし、第三者のデータセットに由来する内容は MIT の対象外で、それぞれの元のライセンスに従います。
+
+- `calib/` のキャリブレーションテキスト: TFMC/imatrix-dataset-for-japanese-llm（c4 由来）と HuggingFaceFW/fineweb-2（ODC-By 1.0）由来のテキストを含む
+- `results/`、`results_main/` の生成結果に含まれる評価データの問題文・文脈: JCommonsenseQA／JSQuAD（JGLUE）および MGSM の各ライセンスに従う
